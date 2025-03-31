@@ -104,7 +104,7 @@ git checkout branch14
 cp ../commit21/* . && git add .
 git commit -m "c21"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 git checkout -b branch22
 cp ../commit22/* . && git add .
 git commit -m "c22"
@@ -113,7 +113,7 @@ git checkout branch12
 cp ../commit23/* . && git add .
 git commit -m "c23"
 
-sh ../toRedUser
+sh ../toRedUser.sh
 git checkout main
 cp ../commit24/* . && git add .
 git commit -m "c24"
@@ -129,7 +129,7 @@ git commit -m "c26"
 cp ../commit27/* . && git add .
 git commit -m "c27"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 git checkout branch6
 cp ../commit28/* . && git add .
 git commit -m "c28"
@@ -140,18 +140,18 @@ git commit -m "c29"
 git checkout branch6
 git merge branch29
 
-sh ../toRedUser
+sh ../toRedUser.sh
 git checkout branch7
 cp ../commit30/* . && git add .
 git commit -m "c30"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 git checkout -b branch31
 cp ../commit31/* . && git add .
 git commit -m "c31"
 git merge branch7
 
-sh ../toRedUser
+sh ../toRedUser.sh
 cp ../commit32/* . && git add .
 git checkout branch31
 git commit -m "c32"
@@ -160,7 +160,7 @@ cp ../commit33/* . && git add .
 git checkout branch1
 git commit -m "c33"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 cp ../commit34/* . && git add .
 git checkout branch12
 git commit -m "c34"
@@ -173,7 +173,7 @@ cp ../commit36/* . && git add .
 git checkout branch12
 git commit -m "c36"
 
-sh ../toRedUser
+sh ../toRedUser.sh
 cp ../commit37/* . && git add .
 git checkout branch20
 git commit -m "c37"
@@ -186,7 +186,7 @@ cp ../commit39/* . && git add .
 git checkout main
 git commit -m "c39"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 cp ../commit40/* . && git add .
 git checkout branch12
 git commit -m "c40"
@@ -204,7 +204,7 @@ git checkout branch15
 git commit -m "c43"
 git checkout -b branch44
 
-sh ../toRedUser
+sh ../toRedUser.sh
 cp ../commit44/* . && git add .
 git commit -m "c44"
 git checkout -b branch45
@@ -212,7 +212,7 @@ git checkout -b branch45
 cp ../commit45/* . && git add .
 git commit -m "c45"
 
-sh ../toBlueUser
+sh ../toBlueUser.sh
 git checkout branch31
 cp ../commit46/* . && git add .
 git commit -m "c46"
@@ -229,10 +229,11 @@ git checkout -b branch49
 cp ../commit49/* . && git add .
 git commit -m "49"
 
-sh ../toRedUser
+sh ../toRedUser.sh
 git checkout branch26
 cp ../commit50/* . && git add .
 git commit -m "50"
+
 #cp ../commit51/* . && git add .
 #cp ../commit52/* . && git add .
 #cp ../commit53/* . && git add .

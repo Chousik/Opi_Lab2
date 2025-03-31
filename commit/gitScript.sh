@@ -1,4 +1,7 @@
-git init buffer && cd buffer
+rm -rf buffer
+mkdir buffer
+git init buffer
+cd buffer
 
 sh toRedUser.sh
 cp ../commit0/* . && git add .
@@ -80,15 +83,46 @@ git checkout branch2
 git merge branch16
 git commit -m "c15+c16"
 
-#cp commit17/* . && git add .
-#cp commit18/* . && git add .
-#cp commit19/* . && git add .
-#cp commit20/* . && git add .
-#cp commit21/* . && git add .
-#cp commit22/* . && git add .
-#cp commit23/* . && git add .
-#cp commit24/* . && git add .
-#cp commit25/* . && git add .
+sh toRedUser.sh
+git checkout branch5
+cp commit17/* . && git add .
+git commit -m "c17"
+
+git checkout branch1
+cp commit18/* . && git add .
+git commit -m "c18"
+
+git checkout -b branch19
+cp commit19/* . && git add .
+git commit -m "c19"
+
+git checkout -b branch20
+cp commit20/* . && git add .
+git commit -m "c20"
+
+git checkout branch14
+cp commit21/* . && git add .
+git commit -m "c21"
+
+sh toBlueUser
+git checkout -b branch22
+cp commit22/* . && git add .
+git commit -m "c22"
+
+git checkout branch12
+cp commit23/* . && git add .
+git commit -m "c23"
+
+sh toRedUser
+git checkout main
+cp commit24/* . && git add .
+git commit -m "c24"
+
+
+cp commit25/* . && git add .
+git commit -m "c25"
+
+
 #cp commit26/* . && git add .
 #cp commit27/* . && git add .
 #cp commit28/* . && git add .
@@ -96,24 +130,37 @@ git commit -m "c15+c16"
 #cp commit30/* . && git add .
 #cp commit31/* . && git add .
 #cp commit32/* . && git add .
-#cp commit33/* . && git add .
-#cp commit34/* . && git add .
-#cp commit35/* . && git add .
-#cp commit36/* . && git add .
-#cp commit37/* . && git add .
-#cp commit38/* . && git add .
-#cp commit39/* . && git add .
-#cp commit40/* . && git add .
-#cp commit41/* . && git add .
-#cp commit42/* . && git add .
-#cp commit43/* . && git add .
-#cp commit44/* . && git add .
-#cp commit45/* . && git add .
-#cp commit46/* . && git add .
-#cp commit47/* . && git add .
-#cp commit48/* . && git add .
-#cp commit49/* . && git add .
-#cp commit50/* . && git add .
+
+cp commit33/* . && git add .
+git checkout -b main
+git commit -m "c33"
+
+cp commit34/* . && git add .
+git checkout -b branch11
+git commit -m "c34"
+
+cp commit35/* . && git add .
+git checkout -b branch30
+git commit -m "c35"
+
+cp commit36/* . && git add .
+git checkout -b branch11
+git commit -m "c36"
+
+cp commit37/* . && git add .
+cp commit38/* . && git add .
+cp commit39/* . && git add .
+cp commit40/* . && git add .
+cp commit41/* . && git add .
+cp commit42/* . && git add .
+cp commit43/* . && git add .
+cp commit44/* . && git add .
+cp commit45/* . && git add .
+cp commit46/* . && git add .
+cp commit47/* . && git add .
+cp commit48/* . && git add .
+cp commit49/* . && git add .
+cp commit50/* . && git add .
 #cp commit51/* . && git add .
 #cp commit52/* . && git add .
 #cp commit53/* . && git add .

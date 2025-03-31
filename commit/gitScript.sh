@@ -75,8 +75,10 @@ git commit -m "c15"
 git checkout branch16
 git add commit16/.
 git commit -m "c16"
+
 git checkout branch2
 git merge branch16
+git commit -m "c15+c16"
 
 #git add commit17/.
 #git add commit18/.

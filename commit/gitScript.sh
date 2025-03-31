@@ -74,13 +74,13 @@ sh toBlueUser.sh
 git checkout branch2
 cp ../commit15/* . && git add .
 git commit -m "c15"
+git checkout -b branch16
 
-git checkout branch16
 cp ../commit16/* . && git add .
 git commit -m "c16"
 
-git checkout branch2
-git merge branch16
+git checkout branch16
+git merge branch2
 git commit -m "c15+c16"
 
 sh toRedUser.sh
@@ -118,49 +118,121 @@ git checkout main
 cp commit24/* . && git add .
 git commit -m "c24"
 
-
+git checkout branch20
 cp commit25/* . && git add .
 git commit -m "c25"
 
+git checkout -b branch26
+cp commit26/* . && git add .
+git commit -m "c26"
 
-#cp commit26/* . && git add .
-#cp commit27/* . && git add .
-#cp commit28/* . && git add .
-#cp commit29/* . && git add .
-#cp commit30/* . && git add .
-#cp commit31/* . && git add .
-#cp commit32/* . && git add .
+cp commit27/* . && git add .
+git commit -m "c27"
+
+sh toBlueUser
+git checkout branch6
+cp commit28/* . && git add .
+git commit -m "c28"
+
+git checkout -b branch29
+cp commit29/* . && git add .
+git commit -m "c29"
+git checkout branch6
+git merge branch29
+
+sh toRedUser
+git checkout branch7
+cp commit30/* . && git add .
+git commit -m "c30"
+
+sh toBlueUser
+git checkout -b branch31
+cp commit31/* . && git add .
+git commit -m "c31"
+git merge branch7
+
+sh toRedUser
+cp commit32/* . && git add .
+git checkout branch31
+git commit -m "c32"
 
 cp commit33/* . && git add .
-git checkout -b main
+git checkout branch1
 git commit -m "c33"
 
+sh toBlueUser
 cp commit34/* . && git add .
-git checkout -b branch11
+git checkout branch12
 git commit -m "c34"
 
 cp commit35/* . && git add .
-git checkout -b branch30
+git checkout branch31
 git commit -m "c35"
 
 cp commit36/* . && git add .
-git checkout -b branch11
+git checkout branch12
 git commit -m "c36"
 
+sh toRedUser
 cp commit37/* . && git add .
+git checkout branch20
+git commit -m "c37"
+
 cp commit38/* . && git add .
+git checkout branch11
+git commit -m "c38"
+
 cp commit39/* . && git add .
+git checkout main
+git commit -m "c39"
+
+sh toBlueUser
 cp commit40/* . && git add .
+git checkout branch12
+git commit -m "c40"
+
 cp commit41/* . && git add .
+git checkout branch15
+git commit -m "c41"
+
 cp commit42/* . && git add .
+git checkout branch16
+git commit -m "c42"
+
 cp commit43/* . && git add .
+git checkout branch15
+git commit -m "c43"
+git checkout -b branch44
+
+sh toRedUser
 cp commit44/* . && git add .
+git commit -m "c44"
+git checkout -b branch45
+
 cp commit45/* . && git add .
+git commit -m "c45"
+
+sh toBlueUser
+git checkout branch31
 cp commit46/* . && git add .
+git commit -m "c46"
+
+git checkout branch31
 cp commit47/* . && git add .
+git commit -m "c47"
+
+git checkout branch28
 cp commit48/* . && git add .
+git commit -m "48"
+
+git checkout -b branch49
 cp commit49/* . && git add .
+git commit -m "49"
+
+sh toRedUser
+git checkout branch26
 cp commit50/* . && git add .
+git commit -m "50"
 #cp commit51/* . && git add .
 #cp commit52/* . && git add .
 #cp commit53/* . && git add .

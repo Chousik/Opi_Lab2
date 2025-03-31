@@ -187,8 +187,8 @@ cp ../commit39/* . && git add .
 git commit -m "c39"
 
 sh ../toBlueUser.sh
-cp ../commit40/* . && git add .
 git checkout branch12
+cp ../commit40/* . && git add .
 git commit -m "c40"
 
 git checkout branch16

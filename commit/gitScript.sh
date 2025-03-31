@@ -191,16 +191,16 @@ cp ../commit40/* . && git add .
 git checkout branch12
 git commit -m "c40"
 
+git checkout branch16
 cp ../commit41/* . && git add .
-git checkout branch15
 git commit -m "c41"
 
-git checkout branch16
+git checkout branch13
 cp ../commit42/* . && git add .
 git commit -m "c42"
 
+git checkout branch16
 cp ../commit43/* . && git add .
-git checkout branch15
 git commit -m "c43"
 git checkout -b branch44
 
@@ -221,7 +221,7 @@ git checkout branch31
 cp ../commit47/* . && git add .
 git commit -m "c47"
 
-git checkout branch28
+git checkout branch29
 cp ../commit48/* . && git add .
 git commit -m "48"
 

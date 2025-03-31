@@ -1,139 +1,163 @@
-git init
+git init buffer && cd buffer
 
 sh toRedUser.sh
-cp commit0/* buffer/ && git add buffer/.
+cp ../commit0/* . && git add .
 git commit -m "c0"
 
 git checkout -b branch1
-cp commit1/* buffer/ && git add buffer/.
+cp ../commit1/* . && git add .
 git commit -m "c1"
 
 sh toBlueUser.sh
 git checkout -b branch2
-cp commit2/* buffer/ && git add buffer/.
+cp ../commit2/* . && git add .
 git commit -m "c2"
 
 sh toRedUser.sh
 git checkout -b branch3
-cp commit3/* buffer/ && git add buffer/.
+cp ../commit3/* . && git add .
 git commit -m "c3"
 
 git checkout -b branch4
-cp commit4/* buffer/ && git add buffer/.
+cp ../commit4/* . && git add .
 git commit -m "c4"
 
 git checkout -b branch5
-cp commit5/* buffer/ && git add buffer/.
+cp ../commit5/* . && git add .
 git commit -m "c5"
 
 sh toBlueUser.sh
 git checkout -b branch6
-cp commit6/* buffer/ && git add buffer/.
+cp ../commit6/* . && git add .
 git commit -m "c6"
 
 sh toRedUser.sh
 git checkout -b branch7
-cp commit7/* buffer/ && git add buffer/.
+cp ../commit7/* . && git add .
 git commit -m "c7"
 
 sh toBlueUser.sh
 git checkout branch6
-cp commit8/* buffer/ && git add buffer/.
+cp ../commit8/* . && git add .
 git commit -m "c8"
 
-cp commit9/* buffer/ && git add buffer/
+cp ../commit9/* . && git add .
 git commit -m "c9"
 
 git checkout -b branch10
-cp commit10/* buffer/ && git add buffer/
+cp ../commit10/* . && git add .
 git commit -m "c10"
 
 sh toRedUser.sh
 git checkout -b branch11
-cp commit11/* buffer/ && git add buffer/
+cp ../commit11/* . && git add .
 git commit -m "c11"
 
 sh toBlueUser.sh
 git checkout -b branch12
-cp commit12/* buffer/ && git add buffer/
+cp ../commit12/* . && git add .
 git commit -m "c12"
 
 git checkout -b branch13
-cp commit13/* buffer/ && git add buffer/
+cp commit13/* . && git add .
 git commit -m "c13"
 
 sh toRedUser.sh
 git checkout -b branch14
-cp commit14/* buffer/ && git add buffer/
+cp ../commit14/* . && git add .
 git commit -m "c14"
 
 sh toBlueUser.sh
 git checkout branch2
-cp commit15/* buffer/ && git add buffer/
+cp ../commit15/* . && git add .
 git commit -m "c15"
 
 git checkout branch16
-cp commit16/* buffer/ && git add buffer/
+cp ../commit16/* . && git add .
 git commit -m "c16"
 
 git checkout branch2
 git merge branch16
 git commit -m "c15+c16"
 
-#cp commit17/* buffer/ && git add buffer/.
-#cp commit18/* buffer/ && git add buffer/.
-#cp commit19/* buffer/ && git add buffer/.
-#cp commit20/* buffer/ && git add buffer/.
-#cp commit21/* buffer/ && git add buffer/.
-#cp commit22/* buffer/ && git add buffer/.
-#cp commit23/* buffer/ && git add buffer/.
-#cp commit24/* buffer/ && git add buffer/.
-#cp commit25/* buffer/ && git add buffer/.
-#cp commit26/* buffer/ && git add buffer/.
-#cp commit27/* buffer/ && git add buffer/.
-#cp commit28/* buffer/ && git add buffer/.
-#cp commit29/* buffer/ && git add buffer/.
-#cp commit30/* buffer/ && git add buffer/.
-#cp commit31/* buffer/ && git add buffer/.
-#cp commit32/* buffer/ && git add buffer/.
-#cp commit33/* buffer/ && git add buffer/.
-#cp commit34/* buffer/ && git add buffer/.
-#cp commit35/* buffer/ && git add buffer/.
-#cp commit36/* buffer/ && git add buffer/.
-#cp commit37/* buffer/ && git add buffer/.
-#cp commit38/* buffer/ && git add buffer/.
-#cp commit39/* buffer/ && git add buffer/.
-#cp commit40/* buffer/ && git add buffer/.
-#cp commit41/* buffer/ && git add buffer/.
-#cp commit42/* buffer/ && git add buffer/.
-#cp commit43/* buffer/ && git add buffer/.
-#cp commit44/* buffer/ && git add buffer/.
-#cp commit45/* buffer/ && git add buffer/.
-#cp commit46/* buffer/ && git add buffer/.
-#cp commit47/* buffer/ && git add buffer/.
-#cp commit48/* buffer/ && git add buffer/.
-#cp commit49/* buffer/ && git add buffer/.
-#cp commit50/* buffer/ && git add buffer/.
-#cp commit51/* buffer/ && git add buffer/.
-#cp commit52/* buffer/ && git add buffer/.
-#cp commit53/* buffer/ && git add buffer/.
-#cp commit54/* buffer/ && git add buffer/.
-#cp commit55/* buffer/ && git add buffer/.
-#cp commit56/* buffer/ && git add buffer/.
-#cp commit57/* buffer/ && git add buffer/.
-#cp commit58/* buffer/ && git add buffer/.
-#cp commit59/* buffer/ && git add buffer/.
-#cp commit60/* buffer/ && git add buffer/.
-#cp commit61/* buffer/ && git add buffer/.
-#cp commit62/* buffer/ && git add buffer/.
-#cp commit63/* buffer/ && git add buffer/.
-#cp commit64/* buffer/ && git add buffer/.
-#cp commit65/* buffer/ && git add buffer/.
-#cp commit66/* buffer/ && git add buffer/.
-#cp commit67/* buffer/ && git add buffer/.
-#cp commit68/* buffer/ && git add buffer/.
-#cp commit69/* buffer/ && git add buffer/.
-#cp commit70/* buffer/ && git add buffer/.
-#cp commit71/* buffer/ && git add buffer/.
-#cp commit72/* buffer/ && git add buffer/.
-#cp commit73/* buffer/ && git add buffer/.
+#cp commit17/* . && git add .
+#cp commit18/* . && git add .
+#cp commit19/* . && git add .
+#cp commit20/* . && git add .
+#cp commit21/* . && git add .
+#cp commit22/* . && git add .
+#cp commit23/* . && git add .
+#cp commit24/* . && git add .
+#cp commit25/* . && git add .
+#cp commit26/* . && git add .
+#cp commit27/* . && git add .
+#cp commit28/* . && git add .
+#cp commit29/* . && git add .
+#cp commit30/* . && git add .
+#cp commit31/* . && git add .
+#cp commit32/* . && git add .
+#cp commit33/* . && git add .
+#cp commit34/* . && git add .
+#cp commit35/* . && git add .
+#cp commit36/* . && git add .
+#cp commit37/* . && git add .
+#cp commit38/* . && git add .
+#cp commit39/* . && git add .
+#cp commit40/* . && git add .
+#cp commit41/* . && git add .
+#cp commit42/* . && git add .
+#cp commit43/* . && git add .
+#cp commit44/* . && git add .
+#cp commit45/* . && git add .
+#cp commit46/* . && git add .
+#cp commit47/* . && git add .
+#cp commit48/* . && git add .
+#cp commit49/* . && git add .
+#cp commit50/* . && git add .
+#cp commit51/* . && git add .
+#cp commit52/* . && git add .
+#cp commit53/* . && git add .
+#cp commit54/* . && git add .
+#cp commit55/* . && git add .
+#cp commit56/* . && git add .
+#cp commit57/* . && git add .
+#cp commit58/* . && git add .
+#cp commit59/* . && git add .
+#cp commit60/* . && git add .
+#cp commit61/* . && git add .
+#cp commit62/* . && git add .
+#cp commit63/* . && git add .
+#cp commit64/* . && git add .
+#cp commit65/* . && git add .
+#cp commit66/* . && git add .
+#cp commit67/* . && git add .
+#cp commit68/* . && git add .
+#cp commit69/* . && git add .
+#cp commit70/* . && git add .
+#cp commit71/* . && git add .
+#cp commit72/* . && git add .
+#cp commit73/* . && git add .
+#cp commit74/* . && git add .
+#cp commit75/* . && git add .
+#cp commit76/* . && git add .
+#cp commit77/* . && git add .
+#cp commit78/* . && git add .
+#cp commit79/* . && git add .
+#cp commit80/* . && git add .
+#cp commit81/* . && git add .
+#cp commit82/* . && git add .
+#cp commit83/* . && git add .
+#cp commit84/* . && git add .
+#cp commit85/* . && git add .
+#cp commit86/* . && git add .
+#cp commit87/* . && git add .
+#cp commit88/* . && git add .
+#cp commit89/* . && git add .
+#cp commit90/* . && git add .
+#cp commit91/* . && git add .
+#cp commit92/* . && git add .
+#cp commit93/* . && git add .
+#cp commit94/* . && git add .
+#cp commit95/* . && git add .
+#cp commit96/* . && git add .
+#cp commit97/* . && git add .

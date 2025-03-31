@@ -156,34 +156,34 @@ cp ../commit32/* . && git add .
 git checkout branch31
 git commit -m "c32"
 
-cp ../commit33/* . && git add .
 git checkout branch1
+cp ../commit33/* . && git add .
 git commit -m "c33"
 
 sh ../toBlueUser.sh
-cp ../commit34/* . && git add .
 git checkout branch12
+cp ../commit34/* . && git add .
 git commit -m "c34"
 
-cp ../commit35/* . && git add .
 git checkout branch31
+cp ../commit35/* . && git add .
 git commit -m "c35"
 
-cp ../commit36/* . && git add .
 git checkout branch12
+cp ../commit36/* . && git add .
 git commit -m "c36"
 
 sh ../toRedUser.sh
-cp ../commit37/* . && git add .
 git checkout branch20
+cp ../commit37/* . && git add .
 git commit -m "c37"
 
-cp ../commit38/* . && git add .
 git checkout branch11
+cp ../commit38/* . && git add .
 git commit -m "c38"
 
-cp ../commit39/* . && git add .
 git checkout main
+cp ../commit39/* . && git add .
 git commit -m "c39"
 
 sh ../toBlueUser.sh
@@ -195,8 +195,8 @@ cp ../commit41/* . && git add .
 git checkout branch15
 git commit -m "c41"
 
-cp ../commit42/* . && git add .
 git checkout branch16
+cp ../commit42/* . && git add .
 git commit -m "c42"
 
 cp ../commit43/* . && git add .

@@ -401,13 +401,50 @@ git merge branch3 --no-commit
 cp ../commit85/* . && git add .
 git commit -m "c85"
 
-#cp ../commit86/* . && git add .
-#cp ../commit87/* . && git add .
-#cp ../commit88/* . && git add .
-#cp ../commit89/* . && git add .
-#cp ../commit90/* . && git add .
-#cp ../commit91/* . && git add .
-#cp ../commit92/* . && git add .
+sh ./toRedUser.sh
+git checkout branch14
+cp ../commit86/* . && git add .
+git commit -m "c86"
+
+sh ../toBlueUser.sh
+git merge branch31 --no-commit
+
+git checkout branch65
+cp ../commit87/* . && git add .
+git commit -m "c87"
+
+sh ../toRedUser.sh
+git merge branch14 --no-commit
+
+git checkout branch32
+cp ../commit88/* . && git add .
+git commit -m "c88"
+
+sh ../toBlueUser.sh
+git merge branch65 --no-commit
+
+git checkout branch10
+cp ../commit89/* . && git add .
+git commit -m "c89"
+
+sh ../toRedUser.sh
+git merge branch32 --no-commit
+
+sh ../toBlueUser.sh
+git checkout branch74
+cp ../commit90/* . && git add .
+git commit -m "c90"
+git merge branch10 --no-commit
+
+git checkout -b branch91
+cp ../commit91/* . && git add .
+git commit -m "c91"
+git merge branch74 --no-commit
+
+git checkout branch12
+cp ../commit92/* . && git add .
+git commit -m "c92"
+
 #cp ../commit93/* . && git add .
 #cp ../commit94/* . && git add .
 #cp ../commit95/* . && git add .

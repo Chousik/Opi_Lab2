@@ -291,13 +291,13 @@ git checkout branch45
 cp ../commit63/* . && git add .
 git commit -m "c63"
 
-git checkout -b "branch64"
+git checkout -b branch64
 cp ../commit64/* . && git add .
 git commit -m "c64"
 git merge branch45 --commit
 
 sh ../toBlueUser.sh
-git checkout -b "branch65"
+git checkout -b branch65
 cp ../commit65/* . && git add .
 git commit -m "c65"
 git merge branch64 --commit
@@ -312,16 +312,54 @@ git merge branch64 --commit
 #cp ../commit73/* . && git add .
 #cp ../commit74/* . && git add .
 #cp ../commit75/* . && git add .
+
 #cp ../commit76/* . && git add .
-#cp ../commit77/* . && git add .
-#cp ../commit78/* . && git add .
-#cp ../commit79/* . && git add .
-#cp ../commit80/* . && git add .
-#cp ../commit81/* . && git add .
-#cp ../commit82/* . && git add .
-#cp ../commit83/* . && git add .
-#cp ../commit84/* . && git add .
-#cp ../commit85/* . && git add .
+#git commit -m "c76"
+
+sh ../toRedUser.sh
+git checkout branch22
+cp ../commit77/* . && git add .
+git commit -m "c76"
+
+git checkout main
+cp ../commit78/* . && git add .
+git commit -m "c78"
+
+git checkout branch22
+cp ../commit79/* . && git add .
+git commit -m "c79"
+
+git checkout main
+git merge branch22 --no-commit
+cp ../commit80/* . && git add .
+git commit -m "c80"
+
+sh ../toBlueUser
+git checkout branch76
+cp ../commit81/* . && git add .
+git commit -m "c81"
+
+sh ../toRedUser
+git checkout branch1
+git merge branch22 --no-commit
+cp ../commit82/* . && git add .
+git commit -m "c82"
+
+git checkout branch32
+git merge branch1 --no-commit
+cp ../commit83/* . && git add .
+git commit -m "c83"
+
+git checkout branch3
+cp ../commit84/* . && git add .
+git commit -m "c84"
+
+sh ../toBlueUser.sh
+git checkout branch31
+git merge branch3 --no-commit
+cp ../commit85/* . && git add .
+git commit -m "c85"
+
 #cp ../commit86/* . && git add .
 #cp ../commit87/* . && git add .
 #cp ../commit88/* . && git add .

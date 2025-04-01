@@ -79,8 +79,7 @@ git checkout -b branch16
 cp ../commit16/* . && git add .
 git commit -m "c16"
 
-git merge branch2
-git commit -m "c15+c16"
+git merge branch2 --commit
 
 sh ../toRedUser.sh
 git checkout branch5
@@ -137,7 +136,7 @@ git checkout -b branch29
 cp ../commit29/* . && git add .
 git commit -m "c29"
 git checkout branch6
-git merge branch29
+git merge branch29 --commit
 
 sh ../toRedUser.sh
 git checkout branch7
@@ -148,7 +147,7 @@ sh ../toBlueUser.sh
 git checkout -b branch31
 cp ../commit31/* . && git add .
 git commit -m "c31"
-git merge branch7
+git merge branch7 -- commit
 
 sh ../toRedUser.sh
 git checkout branch31

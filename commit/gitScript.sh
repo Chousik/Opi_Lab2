@@ -147,7 +147,7 @@ sh ../toBlueUser.sh
 git checkout -b branch31
 cp ../commit31/* . && git add .
 git commit -m "c31"
-git merge branch7 -- commit
+git merge branch7 --commit
 
 sh ../toRedUser.sh
 git checkout branch31
@@ -231,21 +231,61 @@ sh ../toRedUser.sh
 git checkout branch26
 cp ../commit50/* . && git add .
 git commit -m "50"
+
 #cp ../commit51/* . && git add .
 #cp ../commit52/* . && git add .
 #cp ../commit53/* . && git add .
 #cp ../commit54/* . && git add .
 #cp ../commit55/* . && git add .
-#cp ../commit56/* . && git add .
-#cp ../commit57/* . && git add .
-#cp ../commit58/* . && git add .
-#cp ../commit59/* . && git add .
-#cp ../commit60/* . && git add .
-#cp ../commit61/* . && git add .
-#cp ../commit62/* . && git add .
-#cp ../commit63/* . && git add .
-#cp ../commit64/* . && git add .
-#cp ../commit65/* . && git add .
+
+sh ../toBlueUser.sh
+git checkout branch44
+cp ../commit56/* . && git add .
+git commit -m "c56"
+
+sh ../toRedUser.sh
+git checkout -b branch57
+cp ../commit57/* . && git add .
+git commit -m "c57"
+
+git checkout branch11
+cp ../commit58/* . && git add .
+git commit -m "c58"
+
+git checkout branch14
+git merge branch11 --no-commit
+cp ../commit59/* . && git add .
+git commit -m "c59"
+
+git checkout branch3
+cp ../commit60/* . && git add .
+git commit -m "c60"
+
+git checkout main
+cp ../commit61/* . && git add .
+git commit -m "c61"
+
+sh ../toBlueUser.sh
+git checkout branch44
+cp ../commit62/* . && git add .
+git commit -m "c62"
+
+sh ../toRedUser.sh
+git checkout branch45
+cp ../commit63/* . && git add .
+git commit -m "c63"
+
+git checkout -b "branch64"
+cp ../commit64/* . && git add .
+git commit -m "c64"
+git merge branch45 --commit
+
+sh ../toBlueUser.sh
+git checkout -b "branch65"
+cp ../commit65/* . && git add .
+git commit -m "c65"
+git merge branch64 --commit
+
 #cp ../commit66/* . && git add .
 #cp ../commit67/* . && git add .
 #cp ../commit68/* . && git add .

@@ -407,9 +407,34 @@ git commit -m "c85"
 #cp ../commit89/* . && git add .
 #cp ../commit90/* . && git add .
 #cp ../commit91/* . && git add .
-#cp ../commit92/* . && git add .
-#cp ../commit93/* . && git add .
-#cp ../commit94/* . && git add .
-#cp ../commit95/* . && git add .
-#cp ../commit96/* . && git add .
-#cp ../commit97/* . && git add .
+
+git checkout branch12
+cp ../commit92/* . && git add .
+git commit -m "c92"
+
+git checkout branch16
+git merge branch12 --no-commit
+cp ../commit93/* . && git add .
+git commit -m "c93"
+
+git checkout branch91
+git merge branch16 --no-commit
+cp ../commit94/* . && git add .
+git commit -m "c94"
+
+git checkout branch29
+git merge branch91 --no-commit
+cp ../commit95/* . && git add .
+git commit -m "c95"
+
+sh ../toRedUser.sh
+git checkout branch5
+git merge branch29 --no-commit
+cp ../commit96/* . && git add .
+git commit -m "c96"
+
+sh ../toBlueUser.sh
+git checkout branch44
+git merge branch5 --no-commit
+cp ../commit97/* . && git add .
+git commit -m "c97"

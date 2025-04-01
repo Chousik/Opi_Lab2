@@ -221,39 +221,39 @@ git commit -m "c47"
 
 git checkout branch16
 cp ../commit48/* . && git add .
-git commit -m "48"
+git commit -m "c48"
 
 git checkout -b branch49
 cp ../commit49/* . && git add .
-git commit -m "49"
+git commit -m "c49"
 
 sh ../toRedUser.sh
 git checkout branch26
 cp ../commit50/* . && git add .
-git commit -m "50"
+git commit -m "c50"
 
 sh ../toBlueUser.sh
 git checkout branch49
 git merge branch26 --no-commit
 cp ../commit51/* . && git add .
-git commit -m "51"
+git commit -m "c51"
 
 sh ../toRedUser.sh
 git checkout branch31
 git merge branch49 --no-commit
 cp ../commit52/* . && git add .
-git commit -m "52"
+git commit -m "c52"
 
 git checkout branch19
 cp ../commit53/* . && git add .
-git commit -m "53"
+git commit -m "c53"
 
 cp ../commit54/* . && git add .
-git commit -m "54"
+git commit -m "c54"
 
 git checkout branch20
 cp ../commit55/* . && git add .
-git commit -m "55"
+git commit -m "c55"
 
 sh ../toBlueUser.sh
 git checkout branch44

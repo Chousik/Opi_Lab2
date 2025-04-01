@@ -445,7 +445,6 @@ git checkout branch12
 cp ../commit92/* . && git add .
 git commit -m "c92"
 
-<<<<<<< HEAD
 git checkout branch16
 git merge branch12 --no-commit
 cp ../commit93/* . && git add .

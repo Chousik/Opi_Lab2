@@ -232,11 +232,28 @@ git checkout branch26
 cp ../commit50/* . && git add .
 git commit -m "50"
 
-#cp ../commit51/* . && git add .
-#cp ../commit52/* . && git add .
-#cp ../commit53/* . && git add .
-#cp ../commit54/* . && git add .
-#cp ../commit55/* . && git add .
+sh ../toBlueUser.sh
+git checkout branch49
+git merge branch26 --no-commit
+cp ../commit51/* . && git add .
+git commit -m "51"
+
+sh ../toRedUser.sh
+git checkout branch31
+git merge branch49 --no-commit
+cp ../commit52/* . && git add .
+git commit -m "52"
+
+git checkout branch19
+cp ../commit53/* . && git add .
+git commit -m "53"
+
+cp ../commit54/* . && git add .
+git commit -m "54"
+
+git checkout branch20
+cp ../commit55/* . && git add .
+git commit -m "55"
 
 sh ../toBlueUser.sh
 git checkout branch44

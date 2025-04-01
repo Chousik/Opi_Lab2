@@ -351,13 +351,16 @@ git checkout branch19
 cp ../commit75/* . && git add .
 git commit -m "c75"
 
-#cp ../commit76/* . && git add .
-#git commit -m "c76"
+sh ../toBlueUser.sh
+git checkout -b branch76
+git merge branch19 --no-commit
+cp ../commit76/* . && git add .
+git commit -m "c76"
 
 sh ../toRedUser.sh
 git checkout branch22
 cp ../commit77/* . && git add .
-git commit -m "c76"
+git commit -m "c77"
 
 git checkout main
 cp ../commit78/* . && git add .

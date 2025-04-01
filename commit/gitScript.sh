@@ -112,7 +112,7 @@ cp ../commit23/* . && git add .
 git commit -m "c23"
 
 sh ../toRedUser.sh
-git checkout master
+git checkout main
 cp ../commit24/* . && git add .
 git commit -m "c24"
 
@@ -180,7 +180,7 @@ git checkout branch11
 cp ../commit38/* . && git add .
 git commit -m "c38"
 
-git checkout master
+git checkout main
 cp ../commit39/* . && git add .
 git commit -m "c39"
 

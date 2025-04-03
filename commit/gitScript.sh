@@ -3,6 +3,7 @@ mkdir buffer
 git init buffer
 cd buffer
 
+git checkout -b main
 sh ../toRedUser.sh
 cp ../commit0/* . && git add .
 git commit -m "c0"
@@ -401,14 +402,13 @@ git merge branch3 --no-commit
 cp ../commit85/* . && git add .
 git commit -m "c85"
 
-sh ./toRedUser.sh
 git checkout branch14
+git merge branch31 --no-commit
+sh ./toRedUser.sh
 cp ../commit86/* . && git add .
 git commit -m "c86"
 
 sh ../toBlueUser.sh
-git merge branch31 --no-commit
-
 git checkout branch65
 cp ../commit87/* . && git add .
 git commit -m "c87"
@@ -424,28 +424,27 @@ sh ../toBlueUser.sh
 git merge branch65 --no-commit
 
 git checkout branch10
+sh ../toRedUser.sh
+git merge branch32 --no-commit
+sh ../toBlueUser.sh
 cp ../commit89/* . && git add .
 git commit -m "c89"
 
-sh ../toRedUser.sh
-git merge branch32 --no-commit
-
 sh ../toBlueUser.sh
 git checkout branch74
+git merge branch10 --no-commit
 cp ../commit90/* . && git add .
 git commit -m "c90"
-git merge branch10 --no-commit
 
 git checkout -b branch91
+git merge branch74 --no-commit
 cp ../commit91/* . && git add .
 git commit -m "c91"
-git merge branch74 --no-commit
 
 git checkout branch12
 cp ../commit92/* . && git add .
 git commit -m "c92"
 
-<<<<<<< HEAD
 git checkout branch16
 git merge branch12 --no-commit
 cp ../commit93/* . && git add .

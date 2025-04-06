@@ -1,1053 +1,968 @@
 #!/bin/bash
-
+# Удаляем папку buffer (если есть) и создаём новый SVN‑репозиторий
 rm -rf buffer
-rm -rf svnRepo
+mkdir buffer
+svnadmin create buffer/RepositorySVN
+RepoPath="file://$(pwd)/buffer/RepositorySVN"
 
-svnadmin create svnRepo
+# Создаём базовую структуру: trunk и branches
+svn mkdir $RepoPath/trunk $RepoPath/branches -m "Initial structure"
 
-svn mkdir file://$(pwd)/svnRepo/trunk    -m "Create trunk"
-svn mkdir file://$(pwd)/svnRepo/branches -m "Create branches"
-svn mkdir file://$(pwd)/svnRepo/tags     -m "Create tags"
-
-# Делаем checkout trunk в папку buffer
-svn checkout file://$(pwd)/svnRepo/trunk buffer
-cd buffer
-
-###############################################################################
-# 2. Имитация команд
-###############################################################################
-# Короткая шпаргалка по аналогам:
-#   git checkout -b branchX        ->  svn copy ^/trunk ^/branches/branchX -m "msg"; svn switch ^/branches/branchX
-#   git checkout branchX           ->  svn switch ^/branches/branchX
-#   git merge branchY --no-commit  ->  svn merge ^/branches/branchY .
-#   git merge branchY --commit     ->  (то же самое, просто сразу после merge делаем svn commit -m "msg")
-#   git add . && git commit -m ... ->  svn add --force . && svn commit -m ...
-#
-# Вместо "git checkout main" используем "svn switch ^/trunk" (т.к. trunk аналог main в SVN)
+# Получаем рабочую копию из trunk
+svn checkout $RepoPath/trunk working_copy
+cd working_copy
 
 ###############################################################################
-# Вспомогательная "смена пользователя"
-###############################################################################
-sh ../toRedUser.sh
-
-###############################################################################
-# (1) cp ../commit0/* . && git add . && git commit -m "c0"
-###############################################################################
+# c0 (ветка main, пользователь red)
+svn copy $RepoPath/trunk $RepoPath/branches/main -m "Created main"
+svn switch $RepoPath/branches/main
+svn rm *
 cp ../commit0/* .
-svn add --force .
-svn commit -m "c0"
+svn add --force *
+svn commit -m "c0" --username "red"
 
 ###############################################################################
-# (2) git checkout -b branch1 ; cp ../commit1/* . && commit c1
-###############################################################################
-svn copy ^/trunk ^/branches/branch1 -m "Create branch1"
-svn switch ^/branches/branch1
+# c1 (ветка branch1, от main, пользователь red)
+svn copy $RepoPath/branches/main $RepoPath/branches/branch1 -m "Created branch1"
+svn switch $RepoPath/branches/branch1
+svn rm *
 cp ../commit1/* .
-svn add --force .
-svn commit -m "c1"
+svn add --force *
+svn commit -m "c1" --username "red"
 
 ###############################################################################
-# (3) sh ../toBlueUser.sh
-#     git checkout -b branch2 ; cp ../commit2/* . && commit c2
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/trunk ^/branches/branch2 -m "Create branch2"
-svn switch ^/branches/branch2
+# Переключаем на blue (toBlueUser.sh)
+# c2 (ветка branch2, от branch1, пользователь blue)
+svn copy $RepoPath/branches/branch1 $RepoPath/branches/branch2 -m "Created branch2"
+svn switch $RepoPath/branches/branch2
+svn rm *
 cp ../commit2/* .
-svn add --force .
-svn commit -m "c2"
+svn add --force *
+svn commit -m "c2" --username "blue"
 
 ###############################################################################
-# (4) sh ../toRedUser.sh
-#     git checkout -b branch3 ; cp ../commit3/* . && commit c3
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/trunk ^/branches/branch3 -m "Create branch3"
-svn switch ^/branches/branch3
+# Переключаем на red (toRedUser.sh)
+# c3 (ветка branch3, от branch2, пользователь red)
+svn copy $RepoPath/branches/branch2 $RepoPath/branches/branch3 -m "Created branch3"
+svn switch $RepoPath/branches/branch3
+svn rm *
 cp ../commit3/* .
-svn add --force .
-svn commit -m "c3"
+svn add --force *
+svn commit -m "c3" --username "red"
 
 ###############################################################################
-# (5) git checkout -b branch4 ; cp ../commit4/* . && commit c4
-###############################################################################
-svn copy ^/trunk ^/branches/branch4 -m "Create branch4"
-svn switch ^/branches/branch4
+# c4 (ветка branch4, от branch3, пользователь red)
+svn copy $RepoPath/branches/branch3 $RepoPath/branches/branch4 -m "Created branch4"
+svn switch $RepoPath/branches/branch4
+svn rm *
 cp ../commit4/* .
-svn add --force .
-svn commit -m "c4"
+svn add --force *
+svn commit -m "c4" --username "red"
 
 ###############################################################################
-# (6) git checkout -b branch5 ; cp ../commit5/* . && commit c5
-###############################################################################
-svn copy ^/trunk ^/branches/branch5 -m "Create branch5"
-svn switch ^/branches/branch5
+# c5 (ветка branch5, от branch4, пользователь red)
+svn copy $RepoPath/branches/branch4 $RepoPath/branches/branch5 -m "Created branch5"
+svn switch $RepoPath/branches/branch5
+svn rm *
 cp ../commit5/* .
-svn add --force .
-svn commit -m "c5"
+svn add --force *
+svn commit -m "c5" --username "red"
 
 ###############################################################################
-# (7) sh ../toBlueUser.sh
-#     git checkout -b branch6 ; cp ../commit6/* . && commit c6
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/trunk ^/branches/branch6 -m "Create branch6"
-svn switch ^/branches/branch6
+# Переключаем на blue (toBlueUser.sh)
+# c6 (ветка branch6, от branch5, пользователь blue)
+svn copy $RepoPath/branches/branch5 $RepoPath/branches/branch6 -m "Created branch6"
+svn switch $RepoPath/branches/branch6
+svn rm *
 cp ../commit6/* .
-svn add --force .
-svn commit -m "c6"
+svn add --force *
+svn commit -m "c6" --username "blue"
 
 ###############################################################################
-# (8) sh ../toRedUser.sh
-#     git checkout -b branch7 ; cp ../commit7/* . && commit c7
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/trunk ^/branches/branch7 -m "Create branch7"
-svn switch ^/branches/branch7
+# Переключаем на red (toRedUser.sh)
+# c7 (ветка branch7, от branch6, пользователь red)
+svn copy $RepoPath/branches/branch6 $RepoPath/branches/branch7 -m "Created branch7"
+svn switch $RepoPath/branches/branch7
+svn rm *
 cp ../commit7/* .
-svn add --force .
-svn commit -m "c7"
+svn add --force *
+svn commit -m "c7" --username "red"
 
 ###############################################################################
-# (9) sh ../toBlueUser.sh
-#     git checkout branch6 ; cp ../commit8/* => c8; cp ../commit9/* => c9
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch6
+# Переключаем на blue (toBlueUser.sh)
+# Переходим обратно на branch6
+svn switch $RepoPath/branches/branch6
+# c8 (на branch6, пользователь blue)
+svn rm *
 cp ../commit8/* .
-svn add --force .
-svn commit -m "c8"
+svn add --force *
+svn commit -m "c8" --username "blue"
 
+# c9 (на branch6, пользователь blue)
 cp ../commit9/* .
-svn add --force .
-svn commit -m "c9"
+svn add --force *
+svn commit -m "c9" --username "blue"
 
 ###############################################################################
-#     git checkout -b branch10 ; cp ../commit10/* => c10
-###############################################################################
-svn copy ^/branches/branch6 ^/branches/branch10 -m "Create branch10 from branch6"
-svn switch ^/branches/branch10
+# c10 (создаём ветку branch10 от branch6, пользователь blue)
+svn copy $RepoPath/branches/branch6 $RepoPath/branches/branch10 -m "Created branch10"
+svn switch $RepoPath/branches/branch10
+svn rm *
 cp ../commit10/* .
-svn add --force .
-svn commit -m "c10"
+svn add --force *
+svn commit -m "c10" --username "blue"
 
 ###############################################################################
-# (10) sh ../toRedUser.sh
-#      git checkout -b branch11 ; cp ../commit11/* => c11
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/trunk ^/branches/branch11 -m "Create branch11"
-svn switch ^/branches/branch11
+# Переключаем на red (toRedUser.sh)
+# c11 (создаём ветку branch11 от branch10, пользователь red)
+svn copy $RepoPath/branches/branch10 $RepoPath/branches/branch11 -m "Created branch11"
+svn switch $RepoPath/branches/branch11
+svn rm *
 cp ../commit11/* .
-svn add --force .
-svn commit -m "c11"
+svn add --force *
+svn commit -m "c11" --username "red"
 
 ###############################################################################
-# (11) sh ../toBlueUser.sh
-#      git checkout -b branch12 ; cp ../commit12/* => c12
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/trunk ^/branches/branch12 -m "Create branch12"
-svn switch ^/branches/branch12
+# Переключаем на blue (toBlueUser.sh)
+# c12 (создаём ветку branch12 от branch11, пользователь blue)
+svn copy $RepoPath/branches/branch11 $RepoPath/branches/branch12 -m "Created branch12"
+svn switch $RepoPath/branches/branch12
+svn rm *
 cp ../commit12/* .
-svn add --force .
-svn commit -m "c12"
+svn add --force *
+svn commit -m "c12" --username "blue"
 
 ###############################################################################
-# (12) git checkout -b branch13 ; cp ../commit13/* => c13
-###############################################################################
-svn copy ^/branches/branch12 ^/branches/branch13 -m "Create branch13 from branch12"
-svn switch ^/branches/branch13
+# c13 (создаём ветку branch13 от branch12, пользователь blue)
+svn copy $RepoPath/branches/branch12 $RepoPath/branches/branch13 -m "Created branch13"
+svn switch $RepoPath/branches/branch13
+svn rm *
 cp ../commit13/* .
-svn add --force .
-svn commit -m "c13"
+svn add --force *
+svn commit -m "c13" --username "blue"
 
 ###############################################################################
-# (13) sh ../toRedUser.sh
-#      git checkout -b branch14 ; cp ../commit14/* => c14
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/trunk ^/branches/branch14 -m "Create branch14"
-svn switch ^/branches/branch14
+# Переключаем на red (toRedUser.sh)
+# c14 (создаём ветку branch14 от branch13, пользователь red)
+svn copy $RepoPath/branches/branch13 $RepoPath/branches/branch14 -m "Created branch14"
+svn switch $RepoPath/branches/branch14
+svn rm *
 cp ../commit14/* .
-svn add --force .
-svn commit -m "c14"
+svn add --force *
+svn commit -m "c14" --username "red"
 
 ###############################################################################
-# (14) sh ../toBlueUser.sh
-#      git checkout branch2 ; cp ../commit15/* => c15
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch2
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch2
+svn switch $RepoPath/branches/branch2
+# c15 (на branch2, пользователь blue)
+svn rm *
 cp ../commit15/* .
-svn add --force .
-svn commit -m "c15"
+svn add --force *
+svn commit -m "c15" --username "blue"
 
 ###############################################################################
-#      git checkout -b branch16 ; cp ../commit16/* => c16
-#      git merge branch2 --commit
-###############################################################################
-svn copy ^/branches/branch2 ^/branches/branch16 -m "Create branch16 from branch2"
-svn switch ^/branches/branch16
+# c16 (создаём ветку branch16 от branch2, пользователь blue)
+svn copy $RepoPath/branches/branch2 $RepoPath/branches/branch16 -m "Created branch16"
+svn switch $RepoPath/branches/branch16
+svn rm *
 cp ../commit16/* .
-svn add --force .
-svn commit -m "c16"
+svn add --force *
+svn commit -m "c16" --username "blue"
 
-# merge branch2
-svn merge ^/branches/branch2 .
-# Сразу коммит (аналог --commit)
-svn commit -m "merge branch2 into branch16"
+# Выполняем слияние branch2 в branch16 (commit слияния)
+svn merge $RepoPath/branches/branch2 --accept working
+svn commit -m "Merge branch2 into branch16" --username "blue"
 
 ###############################################################################
-# (15) sh ../toRedUser.sh
-#      git checkout branch5 ; cp ../commit17/* => c17
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch5
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch5
+svn switch $RepoPath/branches/branch5
+# c17 (на branch5, пользователь red)
+svn rm *
 cp ../commit17/* .
-svn add --force .
-svn commit -m "c17"
+svn add --force *
+svn commit -m "c17" --username "red"
 
 ###############################################################################
-#      git checkout branch1 ; cp ../commit18/* => c18
-###############################################################################
-svn switch ^/branches/branch1
+# Переходим на branch1
+svn switch $RepoPath/branches/branch1
+# c18 (на branch1, пользователь red)
+svn rm *
 cp ../commit18/* .
-svn add --force .
-svn commit -m "c18"
+svn add --force *
+svn commit -m "c18" --username "red"
 
 ###############################################################################
-#      git checkout -b branch19 ; cp ../commit19/* => c19
-###############################################################################
-svn copy ^/branches/branch1 ^/branches/branch19 -m "Create branch19 from branch1"
-svn switch ^/branches/branch19
+# c19 (создаём ветку branch19 от branch1, пользователь red)
+svn copy $RepoPath/branches/branch1 $RepoPath/branches/branch19 -m "Created branch19"
+svn switch $RepoPath/branches/branch19
+svn rm *
 cp ../commit19/* .
-svn add --force .
-svn commit -m "c19"
+svn add --force *
+svn commit -m "c19" --username "red"
 
 ###############################################################################
-#      git checkout -b branch20 ; cp ../commit20/* => c20
-###############################################################################
-svn copy ^/branches/branch19 ^/branches/branch20 -m "Create branch20 from branch19"
-svn switch ^/branches/branch20
+# c20 (создаём ветку branch20 от branch19, пользователь red)
+svn copy $RepoPath/branches/branch19 $RepoPath/branches/branch20 -m "Created branch20"
+svn switch $RepoPath/branches/branch20
+svn rm *
 cp ../commit20/* .
-svn add --force .
-svn commit -m "c20"
+svn add --force *
+svn commit -m "c20" --username "red"
 
 ###############################################################################
-#      git checkout branch14 ; cp ../commit21/* => c21
-###############################################################################
-svn switch ^/branches/branch14
+# Переходим на branch14
+svn switch $RepoPath/branches/branch14
+# c21 (на branch14, пользователь red)
+svn rm *
 cp ../commit21/* .
-svn add --force .
-svn commit -m "c21"
+svn add --force *
+svn commit -m "c21" --username "red"
 
 ###############################################################################
-# (16) sh ../toBlueUser.sh
-#      git checkout -b branch22 ; cp ../commit22/* => c22
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/trunk ^/branches/branch22 -m "Create branch22"
-svn switch ^/branches/branch22
+# Переключаем на blue (toBlueUser.sh)
+# c22 (создаём ветку branch22 от branch14, пользователь blue)
+svn copy $RepoPath/branches/branch14 $RepoPath/branches/branch22 -m "Created branch22"
+svn switch $RepoPath/branches/branch22
+svn rm *
 cp ../commit22/* .
-svn add --force .
-svn commit -m "c22"
+svn add --force *
+svn commit -m "c22" --username "blue"
 
 ###############################################################################
-#      git checkout branch12 ; cp ../commit23/* => c23
-###############################################################################
-svn switch ^/branches/branch12
+# Переходим на branch12
+svn switch $RepoPath/branches/branch12
+# c23 (на branch12, пользователь blue)
+svn rm *
 cp ../commit23/* .
-svn add --force .
-svn commit -m "c23"
+svn add --force *
+svn commit -m "c23" --username "blue"
 
 ###############################################################################
-# (17) sh ../toRedUser.sh
-#      git checkout main ; cp ../commit24/* => c24
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/trunk
+# Переключаем на red (toRedUser.sh)
+# Переходим на main
+svn switch $RepoPath/branches/main
+# c24 (на main, пользователь red)
+svn rm *
 cp ../commit24/* .
-svn add --force .
-svn commit -m "c24"
+svn add --force *
+svn commit -m "c24" --username "red"
 
 ###############################################################################
-#      git checkout branch20 ; cp ../commit25/* => c25
-###############################################################################
-svn switch ^/branches/branch20
+# Переходим на branch20
+svn switch $RepoPath/branches/branch20
+# c25 (на branch20, пользователь red)
+svn rm *
 cp ../commit25/* .
-svn add --force .
-svn commit -m "c25"
+svn add --force *
+svn commit -m "c25" --username "red"
 
 ###############################################################################
-#      git checkout -b branch26 ; cp ../commit26/* => c26 ; cp ../commit27/* => c27
-###############################################################################
-svn copy ^/branches/branch20 ^/branches/branch26 -m "Create branch26 from branch20"
-svn switch ^/branches/branch26
+# c26 (создаём ветку branch26 от branch20, пользователь red)
+svn copy $RepoPath/branches/branch20 $RepoPath/branches/branch26 -m "Created branch26"
+svn switch $RepoPath/branches/branch26
+svn rm *
 cp ../commit26/* .
-svn add --force .
-svn commit -m "c26"
+svn add --force *
+svn commit -m "c26" --username "red"
 
+# c27 (на branch26, пользователь red)
 cp ../commit27/* .
-svn add --force .
-svn commit -m "c27"
+svn add --force *
+svn commit -m "c27" --username "red"
 
 ###############################################################################
-# (18) sh ../toBlueUser.sh
-#      git checkout branch6 ; cp ../commit28/* => c28
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch6
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch6
+svn switch $RepoPath/branches/branch6
+# c28 (на branch6, пользователь blue)
+svn rm *
 cp ../commit28/* .
-svn add --force .
-svn commit -m "c28"
+svn add --force *
+svn commit -m "c28" --username "blue"
 
 ###############################################################################
-#      git checkout -b branch29 ; cp ../commit29/* => c29
-#      git checkout branch6 ; git merge branch29 --commit
-###############################################################################
-svn copy ^/branches/branch6 ^/branches/branch29 -m "Create branch29 from branch6"
-svn switch ^/branches/branch29
+# c29 (создаём ветку branch29 от branch6, пользователь blue)
+svn copy $RepoPath/branches/branch6 $RepoPath/branches/branch29 -m "Created branch29"
+svn switch $RepoPath/branches/branch29
+# Сначала слияние branch6 в branch29 (как в Git: merge --commit)
+svn merge $RepoPath/branches/branch6 --accept working
+svn commit -m "Merge branch6 into branch29" --username "blue"
+svn rm *
 cp ../commit29/* .
-svn add --force .
-svn commit -m "c29"
-
-svn switch ^/branches/branch6
-svn merge ^/branches/branch29 .
-svn commit -m "merge branch29 into branch6"
+svn add --force *
+svn commit -m "c29" --username "blue"
 
 ###############################################################################
-# (19) sh ../toRedUser.sh
-#      git checkout branch7 ; cp ../commit30/* => c30
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch7
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch7
+svn switch $RepoPath/branches/branch7
+# c30 (на branch7, пользователь red)
+svn rm *
 cp ../commit30/* .
-svn add --force .
-svn commit -m "c30"
+svn add --force *
+svn commit -m "c30" --username "red"
 
 ###############################################################################
-# (20) sh ../toBlueUser.sh
-#      git checkout -b branch31 ; cp ../commit31/* => c31
-#      git merge branch7 --commit
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/branches/branch7 ^/branches/branch31 -m "Create branch31 from branch7"
-svn switch ^/branches/branch31
+# Переключаем на blue (toBlueUser.sh)
+# c31 (создаём ветку branch31 от branch7, пользователь blue)
+svn copy $RepoPath/branches/branch7 $RepoPath/branches/branch31 -m "Created branch31"
+svn switch $RepoPath/branches/branch31
+svn merge $RepoPath/branches/branch7 --accept working
+svn rm *
 cp ../commit31/* .
-svn add --force .
-svn commit -m "c31"
-
-# merge branch7
-svn merge ^/branches/branch7 .
-svn commit -m "merge branch7 into branch31"
+svn add --force *
+svn commit -m "c31" --username "blue"
 
 ###############################################################################
-# (21) sh ../toRedUser.sh
-#      git checkout -b branch32 ; cp ../commit32/* => c32
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/branches/branch31 ^/branches/branch32 -m "Create branch32 from branch31"
-svn switch ^/branches/branch32
+# Переключаем на red (toRedUser.sh)
+# c32 (создаём ветку branch32 от branch31, пользователь red)
+svn copy $RepoPath/branches/branch31 $RepoPath/branches/branch32 -m "Created branch32"
+svn switch $RepoPath/branches/branch32
+svn rm *
 cp ../commit32/* .
-svn add --force .
-svn commit -m "c32"
+svn add --force *
+svn commit -m "c32" --username "red"
 
 ###############################################################################
-#      git checkout branch1 ; cp ../commit33/* => c33
-###############################################################################
-svn switch ^/branches/branch1
+# Переходим на branch1
+svn switch $RepoPath/branches/branch1
+# c33 (на branch1, пользователь red)
+svn rm *
 cp ../commit33/* .
-svn add --force .
-svn commit -m "c33"
+svn add --force *
+svn commit -m "c33" --username "red"
 
 ###############################################################################
-# (22) sh ../toBlueUser.sh
-#      git checkout branch12 ; cp ../commit34/* => c34
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch12
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch12
+svn switch $RepoPath/branches/branch12
+# c34 (на branch12, пользователь blue)
+svn rm *
 cp ../commit34/* .
-svn add --force .
-svn commit -m "c34"
+svn add --force *
+svn commit -m "c34" --username "blue"
 
 ###############################################################################
-#      git checkout branch31 ; cp ../commit35/* => c35
-###############################################################################
-svn switch ^/branches/branch31
+# Переходим на branch31
+svn switch $RepoPath/branches/branch31
+# c35 (на branch31, пользователь blue)
+svn rm *
 cp ../commit35/* .
-svn add --force .
-svn commit -m "c35"
+svn add --force *
+svn commit -m "c35" --username "blue"
 
 ###############################################################################
-#      git checkout branch12 ; cp ../commit36/* => c36
-###############################################################################
-svn switch ^/branches/branch12
+# Переходим на branch12
+svn switch $RepoPath/branches/branch12
+# c36 (на branch12, пользователь blue)
+svn rm *
 cp ../commit36/* .
-svn add --force .
-svn commit -m "c36"
+svn add --force *
+svn commit -m "c36" --username "blue"
 
 ###############################################################################
-# (23) sh ../toRedUser.sh
-#      git checkout branch20 ; cp ../commit37/* => c37
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch20
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch20
+svn switch $RepoPath/branches/branch20
+# c37 (на branch20, пользователь red)
+svn rm *
 cp ../commit37/* .
-svn add --force .
-svn commit -m "c37"
+svn add --force *
+svn commit -m "c37" --username "red"
 
 ###############################################################################
-#      git checkout branch11 ; cp ../commit38/* => c38
-###############################################################################
-svn switch ^/branches/branch11
+# Переходим на branch11
+svn switch $RepoPath/branches/branch11
+# c38 (на branch11, пользователь red)
+svn rm *
 cp ../commit38/* .
-svn add --force .
-svn commit -m "c38"
+svn add --force *
+svn commit -m "c38" --username "red"
 
 ###############################################################################
-#      git checkout main ; cp ../commit39/* => c39
-###############################################################################
-svn switch ^/trunk
+# Переходим на main
+svn switch $RepoPath/branches/main
+# c39 (на main, пользователь red)
+svn rm *
 cp ../commit39/* .
-svn add --force .
-svn commit -m "c39"
+svn add --force *
+svn commit -m "c39" --username "red"
 
 ###############################################################################
-#      git checkout branch12
-#      sh ../toBlueUser.sh
-#      cp ../commit40/* => c40
-###############################################################################
-svn switch ^/branches/branch12
-sh ../toBlueUser.sh
+# Переходим на branch12 и переключаем на blue (toBlueUser.sh)
+svn switch $RepoPath/branches/branch12
+svn rm *
 cp ../commit40/* .
-svn add --force .
-svn commit -m "c40"
+svn add --force *
+svn commit -m "c40" --username "blue"
 
 ###############################################################################
-#      git checkout branch16 ; cp ../commit41/* => c41
-###############################################################################
-svn switch ^/branches/branch16
+# Переходим на branch16
+svn switch $RepoPath/branches/branch16
+# c41 (на branch16, пользователь blue)
+svn rm *
 cp ../commit41/* .
-svn add --force .
-svn commit -m "c41"
+svn add --force *
+svn commit -m "c41" --username "blue"
 
 ###############################################################################
-#      git checkout branch13 ; cp ../commit42/* => c42
-###############################################################################
-svn switch ^/branches/branch13
+# Переходим на branch13
+svn switch $RepoPath/branches/branch13
+# c42 (на branch13, пользователь blue)
+svn rm *
 cp ../commit42/* .
-svn add --force .
-svn commit -m "c42"
+svn add --force *
+svn commit -m "c42" --username "blue"
 
 ###############################################################################
-#      git checkout branch16 ; cp ../commit43/* => c43
-#      git checkout -b branch44 ; cp ../commit44/* => c44
-###############################################################################
-svn switch ^/branches/branch16
+# Переходим на branch16
+svn switch $RepoPath/branches/branch16
+# c43 (на branch16, пользователь blue)
+svn rm *
 cp ../commit43/* .
-svn add --force .
-svn commit -m "c43"
+svn add --force *
+svn commit -m "c43" --username "blue"
 
-svn copy ^/branches/branch16 ^/branches/branch44 -m "Create branch44 from branch16"
-svn switch ^/branches/branch44
-sh ../toRedUser.sh
+# Создаём ветку branch44 от branch16
+svn copy $RepoPath/branches/branch16 $RepoPath/branches/branch44 -m "Created branch44"
+svn switch $RepoPath/branches/branch44
+
+###############################################################################
+# Переключаем на red (toRedUser.sh)
+# c44 (на branch44, пользователь red)
+svn rm *
 cp ../commit44/* .
-svn add --force .
-svn commit -m "c44"
+svn add --force *
+svn commit -m "c44" --username "red"
 
 ###############################################################################
-#      git checkout -b branch45 ; cp ../commit45/* => c45
-###############################################################################
-svn copy ^/branches/branch44 ^/branches/branch45 -m "Create branch45 from branch44"
-svn switch ^/branches/branch45
+# c45 (создаём ветку branch45 от branch44, пользователь red)
+svn copy $RepoPath/branches/branch44 $RepoPath/branches/branch45 -m "Created branch45"
+svn switch $RepoPath/branches/branch45
+svn rm *
 cp ../commit45/* .
-svn add --force .
-svn commit -m "c45"
+svn add --force *
+svn commit -m "c45" --username "red"
 
 ###############################################################################
-# (24) sh ../toBlueUser.sh
-#      git checkout branch31 ; cp ../commit46/* => c46
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch31
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch31
+svn switch $RepoPath/branches/branch31
+# c46 (на branch31, пользователь blue)
+svn rm *
 cp ../commit46/* .
-svn add --force .
-svn commit -m "c46"
+svn add --force *
+svn commit -m "c46" --username "blue"
 
 ###############################################################################
-#      git checkout branch16 ; cp ../commit47/* => c47
-###############################################################################
-svn switch ^/branches/branch16
+# Переходим на branch16
+svn switch $RepoPath/branches/branch16
+# c47 (на branch16, пользователь blue)
+svn rm *
 cp ../commit47/* .
-svn add --force .
-svn commit -m "c47"
+svn add --force *
+svn commit -m "c47" --username "blue"
 
 ###############################################################################
-#      git checkout branch16 ; cp ../commit48/* => c48
-#      git checkout -b branch49 ; cp ../commit49/* => c49
-###############################################################################
+# Переходим на branch29
+svn switch $RepoPath/branches/branch29
+# c48 (на branch29, пользователь blue)
+svn rm *
 cp ../commit48/* .
-svn add --force .
-svn commit -m "c48"
+svn add --force *
+svn commit -m "c48" --username "blue"
 
-svn copy ^/branches/branch16 ^/branches/branch49 -m "Create branch49 from branch16"
-svn switch ^/branches/branch49
+###############################################################################
+# c49 (создаём ветку branch49 от branch29, пользователь blue)
+svn copy $RepoPath/branches/branch29 $RepoPath/branches/branch49 -m "Created branch49"
+svn switch $RepoPath/branches/branch49
+svn rm *
 cp ../commit49/* .
-svn add --force .
-svn commit -m "c49"
+svn add --force *
+svn commit -m "c49" --username "blue"
 
 ###############################################################################
-# (25) sh ../toRedUser.sh
-#      git checkout branch26 ; cp ../commit50/* => c50
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch26
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch26
+svn switch $RepoPath/branches/branch26
+# c50 (на branch26, пользователь red)
+svn rm *
 cp ../commit50/* .
-svn add --force .
-svn commit -m "c50"
+svn add --force *
+svn commit -m "c50" --username "red"
 
 ###############################################################################
-# (26) sh ../toBlueUser.sh
-#      git checkout branch49
-#      git merge branch26 --no-commit
-#      cp ../commit51/* => c51
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch49
-svn merge ^/branches/branch26 .
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch49
+svn switch $RepoPath/branches/branch49
+# Слияние branch26 в branch49 без commit
+svn merge $RepoPath/branches/branch26 --accept working
+svn rm *
 cp ../commit51/* .
-svn add --force .
-svn commit -m "c51"
+svn add --force *
+svn commit -m "c51" --username "blue"
 
 ###############################################################################
-# (27) sh ../toRedUser.sh
-#      git checkout branch32
-#      git merge branch49 --no-commit
-#      cp ../commit52/* => c52
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch32
-svn merge ^/branches/branch49 .
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch32
+svn switch $RepoPath/branches/branch32
+# Слияние branch49 в branch32 без commit
+svn merge $RepoPath/branches/branch49 --accept working
+svn rm *
 cp ../commit52/* .
-svn add --force .
-svn commit -m "c52"
+svn add --force *
+svn commit -m "c52" --username "red"
 
 ###############################################################################
-#      git checkout branch19 ; cp ../commit53/* => c53 ; cp ../commit54/* => c54
-###############################################################################
-svn switch ^/branches/branch19
+# Переходим на branch19
+svn switch $RepoPath/branches/branch19
+# c53 (на branch19, пользователь red)
+svn rm *
 cp ../commit53/* .
-svn add --force .
-svn commit -m "c53"
+svn add --force *
+svn commit -m "c53" --username "red"
 
+# c54 (на branch19, продолжение, пользователь red)
 cp ../commit54/* .
-svn add --force .
-svn commit -m "c54"
+svn add --force *
+svn commit -m "c54" --username "red"
 
 ###############################################################################
-#      git checkout branch20 ; cp ../commit55/* => c55
-###############################################################################
-svn switch ^/branches/branch20
+# Переходим на branch20
+svn switch $RepoPath/branches/branch20
+# c55 (на branch20, пользователь red)
+svn rm *
 cp ../commit55/* .
-svn add --force .
-svn commit -m "c55"
+svn add --force *
+svn commit -m "c55" --username "red"
 
 ###############################################################################
-# (28) sh ../toBlueUser.sh
-#      git checkout branch44 ; cp ../commit56/* => c56
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch44
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch44
+svn switch $RepoPath/branches/branch44
+# c56 (на branch44, пользователь blue)
+svn rm *
 cp ../commit56/* .
-svn add --force .
-svn commit -m "c56"
+svn add --force *
+svn commit -m "c56" --username "blue"
 
 ###############################################################################
-# (29) sh ../toRedUser.sh
-#      git checkout -b branch57 ; cp ../commit57/* => c57
-###############################################################################
-sh ../toRedUser.sh
-svn copy ^/branches/branch44 ^/branches/branch57 -m "Create branch57 from branch44"
-svn switch ^/branches/branch57
+# Переключаем на red (toRedUser.sh)
+# c57 (создаём ветку branch57 от branch44, пользователь red)
+svn copy $RepoPath/branches/branch44 $RepoPath/branches/branch57 -m "Created branch57"
+svn switch $RepoPath/branches/branch57
+svn rm *
 cp ../commit57/* .
-svn add --force .
-svn commit -m "c57"
+svn add --force *
+svn commit -m "c57" --username "red"
 
 ###############################################################################
-#      git checkout branch11 ; cp ../commit58/* => c58
-###############################################################################
-svn switch ^/branches/branch11
+# Переходим на branch11
+svn switch $RepoPath/branches/branch11
+# c58 (на branch11, пользователь red)
+svn rm *
 cp ../commit58/* .
-svn add --force .
-svn commit -m "c58"
+svn add --force *
+svn commit -m "c58" --username "red"
 
 ###############################################################################
-#      git checkout branch14
-#      git merge branch11 --no-commit
-#      cp ../commit59/* => c59
-###############################################################################
-svn switch ^/branches/branch14
-svn merge ^/branches/branch11 .
+# Переходим на branch14
+svn switch $RepoPath/branches/branch14
+# Слияние branch11 в branch14 без commit
+svn merge $RepoPath/branches/branch11 --accept working
+svn rm *
 cp ../commit59/* .
-svn add --force .
-svn commit -m "c59"
+svn add --force *
+svn commit -m "c59" --username "red"
 
 ###############################################################################
-#      git checkout branch3 ; cp ../commit60/* => c60
-###############################################################################
-svn switch ^/branches/branch3
+# Переходим на branch3
+svn switch $RepoPath/branches/branch3
+# c60 (на branch3, пользователь red)
+svn rm *
 cp ../commit60/* .
-svn add --force .
-svn commit -m "c60"
+svn add --force *
+svn commit -m "c60" --username "red"
 
 ###############################################################################
-#      git checkout main ; cp ../commit61/* => c61
-###############################################################################
-svn switch ^/trunk
+# Переходим на main
+svn switch $RepoPath/branches/main
+# c61 (на main, пользователь red)
+svn rm *
 cp ../commit61/* .
-svn add --force .
-svn commit -m "c61"
+svn add --force *
+svn commit -m "c61" --username "red"
 
 ###############################################################################
-# (30) sh ../toBlueUser.sh
-#      git checkout branch44 ; cp ../commit62/* => c62
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch44
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch44
+svn switch $RepoPath/branches/branch44
+# c62 (на branch44, пользователь blue)
+svn rm *
 cp ../commit62/* .
-svn add --force .
-svn commit -m "c62"
+svn add --force *
+svn commit -m "c62" --username "blue"
 
 ###############################################################################
-# (31) sh ../toRedUser.sh
-#      git checkout branch45 ; cp ../commit63/* => c63
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch45
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch45
+svn switch $RepoPath/branches/branch45
+# c63 (на branch45, пользователь red)
+svn rm *
 cp ../commit63/* .
-svn add --force .
-svn commit -m "c63"
+svn add --force *
+svn commit -m "c63" --username "red"
 
 ###############################################################################
-#      git checkout -b branch64 ; cp ../commit64/* => c64
-#      git merge branch45 --commit
-###############################################################################
-svn copy ^/branches/branch45 ^/branches/branch64 -m "Create branch64 from branch45"
-svn switch ^/branches/branch64
+# c64 (создаём ветку branch64 от branch45, пользователь red)
+svn copy $RepoPath/branches/branch45 $RepoPath/branches/branch64 -m "Created branch64"
+svn switch $RepoPath/branches/branch64
+svn rm *
 cp ../commit64/* .
-svn add --force .
-svn commit -m "c64"
-
-svn merge ^/branches/branch45 .
-svn commit -m "merge branch45 into branch64"
+svn add --force *
+svn commit -m "c64" --username "red"
+# Слияние branch45 в branch64 с commit
+svn merge $RepoPath/branches/branch45 --accept working
+svn commit -m "Merge branch45 into branch64" --username "red"
 
 ###############################################################################
-# (32) sh ../toBlueUser.sh
-#      git checkout -b branch65 ; cp ../commit65/* => c65
-#      git merge branch64 --commit
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/branches/branch64 ^/branches/branch65 -m "Create branch65 from branch64"
-svn switch ^/branches/branch65
+# Переключаем на blue (toBlueUser.sh)
+# c65 (создаём ветку branch65 от branch64, пользователь blue)
+svn copy $RepoPath/branches/branch64 $RepoPath/branches/branch65 -m "Created branch65"
+svn switch $RepoPath/branches/branch65
+svn rm *
 cp ../commit65/* .
-svn add --force .
-svn commit -m "c65"
-
-svn merge ^/branches/branch64 .
-svn commit -m "merge branch64 into branch65"
+svn add --force *
+svn commit -m "c65" --username "blue"
+# Слияние branch64 в branch65 с commit
+svn merge $RepoPath/branches/branch64 --accept working
+svn commit -m "Merge branch64 into branch65" --username "blue"
 
 ###############################################################################
-#      git checkout branch6 ; cp ../commit66/* => c66
-###############################################################################
-svn switch ^/branches/branch6
+# Переходим на branch13
+svn switch $RepoPath/branches/branch13
+# c66 (на branch13, пользователь blue)
+svn rm *
 cp ../commit66/* .
-svn add --force .
-svn commit -m "c66"
+svn add --force *
+svn commit -m "c66" --username "blue"
 
 ###############################################################################
-# (33) sh ../toRedUser.sh
-#      git checkout branch57 ; cp ../commit67/* => c67
-#      git merge branch13 --commit
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch57
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch57
+svn switch $RepoPath/branches/branch57
+# Слияние branch13 в branch57 без commit
+svn merge $RepoPath/branches/branch13 --accept working
+svn rm *
 cp ../commit67/* .
-svn add --force .
-svn commit -m "c67"
-
-svn merge ^/branches/branch13 .
-svn commit -m "merge branch13 into branch57"
+svn add --force *
+svn commit -m "c67" --username "red"
 
 ###############################################################################
-#      git checkout branch20 ; cp ../commit68/* => c68
-#      git merge branch57 --commit
-###############################################################################
-svn switch ^/branches/branch20
+# Переходим на branch20
+svn switch $RepoPath/branches/branch20
+# Слияние branch57 в branch20 без commit
+svn merge $RepoPath/branches/branch57 --accept working
+svn rm *
 cp ../commit68/* .
-svn add --force .
-svn commit -m "c68"
-
-svn merge ^/branches/branch57 .
-svn commit -m "merge branch57 into branch20"
+svn add --force *
+svn commit -m "c68" --username "red"
 
 ###############################################################################
-#      git checkout main ; cp ../commit69/* => c69
-#      git merge branch20 --commit
-###############################################################################
-svn switch ^/trunk
+# Переходим на main
+svn switch $RepoPath/branches/main
+# Слияние branch20 в main без commit
+svn merge $RepoPath/branches/branch20 --accept working
+svn rm *
 cp ../commit69/* .
-svn add --force .
-svn commit -m "c69"
-
-svn merge ^/branches/branch20 .
-svn commit -m "merge branch20 into trunk"
+svn add --force *
+svn commit -m "c69" --username "red"
 
 ###############################################################################
-# (34) sh ../toBlueUser.sh
-#      git checkout branch6 ; cp ../commit70/* => c70
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch6
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch29
+svn switch $RepoPath/branches/branch29
+# c70 (на branch29, пользователь blue)
+svn rm *
 cp ../commit70/* .
-svn add --force .
-svn commit -m "c70"
+svn add --force *
+svn commit -m "c70" --username "blue"
 
 ###############################################################################
-#      git checkout branch16 ; cp ../commit71/* => c71
-###############################################################################
-svn switch ^/branches/branch16
+# Переходим на branch16
+svn switch $RepoPath/branches/branch16
+# c71 (на branch16, пользователь blue)
+svn rm *
 cp ../commit71/* .
-svn add --force .
-svn commit -m "c71"
+svn add --force *
+svn commit -m "c71" --username "blue"
 
 ###############################################################################
-# (35) sh ../toRedUser.sh
-#      git checkout branch4 ; cp ../commit72/* => c72
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch4
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch4
+svn switch $RepoPath/branches/branch4
+# c72 (на branch4, пользователь red)
+svn rm *
 cp ../commit72/* .
-svn add --force .
-svn commit -m "c72"
+svn add --force *
+svn commit -m "c72" --username "red"
 
 ###############################################################################
-#      git checkout branch3 ; cp ../commit73/* => c73
-#      git merge branch4 --commit
-###############################################################################
-svn switch ^/branches/branch3
+# Переходим на branch3
+svn switch $RepoPath/branches/branch3
+# c73 (на branch3, пользователь red)
+svn rm *
 cp ../commit73/* .
-svn add --force .
-svn commit -m "c73"
-
-svn merge ^/branches/branch4 .
-svn commit -m "merge branch4 into branch3"
+svn add --force *
+svn commit -m "c73" --username "red"
+# Слияние branch4 в branch3 без commit
+svn merge $RepoPath/branches/branch4 --accept working
+svn commit -m "Merge branch4 into branch3" --username "red"
 
 ###############################################################################
-# (36) sh ../toBlueUser.sh
-#      git checkout -b branch74 ; cp ../commit74/* => c74
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/branches/branch3 ^/branches/branch74 -m "Create branch74 from branch3"
-svn switch ^/branches/branch74
+# Переключаем на blue (toBlueUser.sh)
+# c74 (создаём ветку branch74 от branch3, пользователь blue)
+svn copy $RepoPath/branches/branch3 $RepoPath/branches/branch74 -m "Created branch74"
+svn switch $RepoPath/branches/branch74
+svn rm *
 cp ../commit74/* .
-svn add --force .
-svn commit -m "c74"
+svn add --force *
+svn commit -m "c74" --username "blue"
 
 ###############################################################################
-# (37) sh ../toRedUser.sh
-#      git checkout branch19 ; cp ../commit75/* => c75
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch19
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch19
+svn switch $RepoPath/branches/branch19
+# c75 (на branch19, пользователь red)
+svn rm *
 cp ../commit75/* .
-svn add --force .
-svn commit -m "c75"
+svn add --force *
+svn commit -m "c75" --username "red"
 
 ###############################################################################
-# (38) sh ../toBlueUser.sh
-#      git checkout -b branch76
-#      git merge branch19 --no-commit
-#      cp ../commit76/* => c76
-###############################################################################
-sh ../toBlueUser.sh
-svn copy ^/branches/branch19 ^/branches/branch76 -m "Create branch76 from branch19"
-svn switch ^/branches/branch76
-svn merge ^/branches/branch19 .
+# Переключаем на blue (toBlueUser.sh)
+# c76 (создаём ветку branch76 от branch19, пользователь blue)
+svn copy $RepoPath/branches/branch19 $RepoPath/branches/branch76 -m "Created branch76"
+svn switch $RepoPath/branches/branch76
+svn merge $RepoPath/branches/branch19 --accept working
+svn rm *
 cp ../commit76/* .
-svn add --force .
-svn commit -m "c76"
+svn add --force *
+svn commit -m "c76" --username "blue"
 
 ###############################################################################
-# (39) sh ../toRedUser.sh
-#      git checkout branch22 ; cp ../commit77/* => c77
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch22
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch14
+svn switch $RepoPath/branches/branch14
+# c77 (на branch14, пользователь red)
+svn rm *
 cp ../commit77/* .
-svn add --force .
-svn commit -m "c77"
+svn add --force *
+svn commit -m "c77" --username "red"
 
 ###############################################################################
-#      git checkout main ; cp ../commit78/* => c78
-###############################################################################
-svn switch ^/trunk
+# Переходим на main
+svn switch $RepoPath/branches/main
+# c78 (на main, пользователь red)
+svn rm *
 cp ../commit78/* .
-svn add --force .
-svn commit -m "c78"
+svn add --force *
+svn commit -m "c78" --username "red"
 
 ###############################################################################
-#      git checkout branch22 ; cp ../commit79/* => c79
-###############################################################################
-svn switch ^/branches/branch22
+# Переходим на branch22
+svn switch $RepoPath/branches/branch22
+# c79 (на branch22, пользователь red)
+svn rm *
 cp ../commit79/* .
-svn add --force .
-svn commit -m "c79"
+svn add --force *
+svn commit -m "c79" --username "red"
 
 ###############################################################################
-#      git checkout main
-#      git merge branch22 --no-commit
-#      cp ../commit80/* => c80
-###############################################################################
-svn switch ^/trunk
-svn merge ^/branches/branch22 .
+# Переходим на main
+svn switch $RepoPath/branches/main
+# Слияние branch22 в main без commit
+svn merge $RepoPath/branches/branch22 --accept working
+svn rm *
 cp ../commit80/* .
-svn add --force .
-svn commit -m "c80"
+svn add --force *
+svn commit -m "c80" --username "red"
 
 ###############################################################################
-# (40) sh ../toBlueUser
-#      git checkout branch76 ; cp ../commit81/* => c81
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch76
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch76
+svn switch $RepoPath/branches/branch76
+# c81 (на branch76, пользователь blue)
+svn rm *
 cp ../commit81/* .
-svn add --force .
-svn commit -m "c81"
+svn add --force *
+svn commit -m "c81" --username "blue"
 
 ###############################################################################
-# (41) sh ../toRedUser
-#      git checkout branch1
-#      git merge branch22 --no-commit
-#      cp ../commit82/* => c82
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch1
-svn merge ^/branches/branch22 .
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch1
+svn switch $RepoPath/branches/branch1
+# Слияние branch22 в branch1 без commit
+svn merge $RepoPath/branches/branch22 --accept working
+svn rm *
 cp ../commit82/* .
-svn add --force .
-svn commit -m "c82"
+svn add --force *
+svn commit -m "c82" --username "red"
 
 ###############################################################################
-#      git checkout branch32
-#      git merge branch1 --no-commit
-#      cp ../commit83/* => c83
-###############################################################################
-svn switch ^/branches/branch32
-svn merge ^/branches/branch1 .
+# Переходим на branch32
+svn switch $RepoPath/branches/branch32
+# Слияние branch1 в branch32 без commit
+svn merge $RepoPath/branches/branch1 --accept working
+svn rm *
 cp ../commit83/* .
-svn add --force .
-svn commit -m "c83"
+svn add --force *
+svn commit -m "c83" --username "red"
 
 ###############################################################################
-#      git checkout branch3 ; cp ../commit84/* => c84
-###############################################################################
-svn switch ^/branches/branch3
+# Переходим на branch3
+svn switch $RepoPath/branches/branch3
+# c84 (на branch3, пользователь red)
+svn rm *
 cp ../commit84/* .
-svn add --force .
-svn commit -m "c84"
+svn add --force *
+svn commit -m "c84" --username "red"
 
 ###############################################################################
-# (42) sh ../toBlueUser.sh
-#      git checkout branch31
-#      git merge branch3 --no-commit
-#      cp ../commit85/* => c85
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch31
-svn merge ^/branches/branch3 .
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch31
+svn switch $RepoPath/branches/branch31
+# Слияние branch3 в branch31 без commit
+svn merge $RepoPath/branches/branch3 --accept working
+svn rm *
 cp ../commit85/* .
-svn add --force .
-svn commit -m "c85"
+svn add --force *
+svn commit -m "c85" --username "blue"
 
 ###############################################################################
-# (43) sh ./toRedUser.sh
-#      git checkout branch14 ; cp ../commit86/* => c86
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch14
+# Переходим на branch14
+svn switch $RepoPath/branches/branch14
+# Слияние branch31 в branch14 без commit
+svn merge $RepoPath/branches/branch31 --accept working
+# Переключаем на red (toRedUser.sh)
+svn rm *
 cp ../commit86/* .
-svn add --force .
-svn commit -m "c86"
+svn add --force *
+svn commit -m "c86" --username "red"
 
 ###############################################################################
-#      sh ../toBlueUser.sh
-#      git merge branch31 --no-commit
-#
-# (Судя по логике, здесь не был указан checkout, возможно пропуск?
-#  Предположим, что мы остаёмся на branch14 и хотим влить branch31.
-#  Но в Git-скрипте нет чёткого checkout?
-#  Воспримем, что нужно слить branch31 в branch14)
-###############################################################################
-sh ../toBlueUser.sh
-svn merge ^/branches/branch31 .
-# Пока без коммита (no-commit). Можно было бы далее скопировать файлы, но в оригинале не было новых commit'ов?
-
-###############################################################################
-#      git checkout branch65 ; cp ../commit87/* => c87
-###############################################################################
-svn switch ^/branches/branch65
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch65
+svn switch $RepoPath/branches/branch65
+# Слияние branch14 в branch65 без commit
+svn merge $RepoPath/branches/branch14 --accept working
+svn rm *
 cp ../commit87/* .
-svn add --force .
-svn commit -m "c87"
+svn add --force *
+svn commit -m "c87" --username "red"
 
 ###############################################################################
-# (44) sh ../toRedUser.sh
-#      git merge branch14 --no-commit
-#
-# (Аналогичная ситуация: скорее всего мы пытаемся влить branch14
-#  в текущую ветку branch65, но в Git-скрипте нет checkout?
-#  Допустим, что мы и есть на branch65)
-###############################################################################
-sh ../toRedUser.sh
-svn merge ^/branches/branch14 .
-# no commit
-
-###############################################################################
-#      git checkout branch32 ; cp ../commit88/* => c88
-###############################################################################
-svn switch ^/branches/branch32
+# Переходим на branch32
+svn switch $RepoPath/branches/branch32
+# Слияние branch65 в branch32 без commit
+svn merge $RepoPath/branches/branch65 --accept working
+svn rm *
 cp ../commit88/* .
-svn add --force .
-svn commit -m "c88"
+svn add --force *
+svn commit -m "c88" --username "red"
 
 ###############################################################################
-# (45) sh ../toBlueUser.sh
-#      git merge branch65 --no-commit
-#
-# (Опять неясно на какой ветке мы сейчас. Предположим, что это branch32?
-#  или хотим влить branch65 в branch32? Оставим как есть.)
-###############################################################################
-sh ../toBlueUser.sh
-svn merge ^/branches/branch65 .
-# no commit
-
-###############################################################################
-#      git checkout branch10 ; cp ../commit89/* => c89
-###############################################################################
-svn switch ^/branches/branch10
+# Переходим на branch10
+svn switch $RepoPath/branches/branch10
+# Переключаем на red (toRedUser.sh)
+svn merge $RepoPath/branches/branch32 --accept working
+# Переключаем на blue (toBlueUser.sh)
+svn rm *
 cp ../commit89/* .
-svn add --force .
-svn commit -m "c89"
+svn add --force *
+svn commit -m "c89" --username "blue"
 
 ###############################################################################
-# (46) sh ../toRedUser.sh
-#      git merge branch32 --no-commit
-#
-# (Снова нет checkout. Предположим, мы остаёмся на branch10
-#  и вливаем branch32.)
-###############################################################################
-sh ../toRedUser.sh
-svn merge ^/branches/branch32 .
-# no commit
-
-###############################################################################
-# (47) sh ../toBlueUser.sh
-#      git checkout branch74 ; cp ../commit90/* => c90
-#      git merge branch10 --no-commit
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch74
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch74
+svn switch $RepoPath/branches/branch74
+# Слияние branch10 в branch74 без commit
+svn merge $RepoPath/branches/branch10 --accept working
+svn rm *
 cp ../commit90/* .
-svn add --force .
-svn commit -m "c90"
-
-svn merge ^/branches/branch10 .
-# no commit
+svn add --force *
+svn commit -m "c90" --username "blue"
 
 ###############################################################################
-#      git checkout -b branch91 ; cp ../commit91/* => c91
-#      git merge branch74 --no-commit
-###############################################################################
-svn copy ^/branches/branch74 ^/branches/branch91 -m "Create branch91 from branch74"
-svn switch ^/branches/branch91
+# c91 (создаём ветку branch91 от branch74, пользователь blue)
+svn copy $RepoPath/branches/branch74 $RepoPath/branches/branch91 -m "Created branch91"
+svn switch $RepoPath/branches/branch91
+# Слияние branch74 в branch91 без commit
+svn merge $RepoPath/branches/branch74 --accept working
+svn rm *
 cp ../commit91/* .
-svn add --force .
-svn commit -m "c91"
-
-svn merge ^/branches/branch74 .
-# no commit
+svn add --force *
+svn commit -m "c91" --username "blue"
 
 ###############################################################################
-#      git checkout branch12 ; cp ../commit92/* => c92
-###############################################################################
-svn switch ^/branches/branch12
+# Переходим на branch12
+svn switch $RepoPath/branches/branch12
+# c92 (на branch12, пользователь blue)
+svn rm *
 cp ../commit92/* .
-svn add --force .
-svn commit -m "c92"
+svn add --force *
+svn commit -m "c92" --username "blue"
 
 ###############################################################################
-# <<<<<<< HEAD
-# (48) git checkout branch16
-#      git merge branch12 --no-commit
-#      cp ../commit93/* => c93
-###############################################################################
-svn switch ^/branches/branch16
-svn merge ^/branches/branch12 .
+# Переходим на branch16
+svn switch $RepoPath/branches/branch16
+# Слияние branch12 в branch16 без commit
+svn merge $RepoPath/branches/branch12 --accept working
+svn rm *
 cp ../commit93/* .
-svn add --force .
-svn commit -m "c93"
+svn add --force *
+svn commit -m "c93" --username "blue"
 
 ###############################################################################
-#      git checkout branch91
-#      git merge branch16 --no-commit
-#      cp ../commit94/* => c94
-###############################################################################
-svn switch ^/branches/branch91
-svn merge ^/branches/branch16 .
+# Переходим на branch91
+svn switch $RepoPath/branches/branch91
+# Слияние branch16 в branch91 без commit
+svn merge $RepoPath/branches/branch16 --accept working
+svn rm *
 cp ../commit94/* .
-svn add --force .
-svn commit -m "c94"
+svn add --force *
+svn commit -m "c94" --username "blue"
 
 ###############################################################################
-#      git checkout branch29
-#      git merge branch91 --no-commit
-#      cp ../commit95/* => c95
-###############################################################################
-svn switch ^/branches/branch29
-svn merge ^/branches/branch91 .
+# Переходим на branch29
+svn switch $RepoPath/branches/branch29
+# Слияние branch91 в branch29 без commit
+svn merge $RepoPath/branches/branch91 --accept working
+svn rm *
 cp ../commit95/* .
-svn add --force .
-svn commit -m "c95"
+svn add --force *
+svn commit -m "c95" --username "blue"
 
 ###############################################################################
-# (49) sh ../toRedUser.sh
-#      git checkout branch5
-#      git merge branch29 --no-commit
-#      cp ../commit96/* => c96
-###############################################################################
-sh ../toRedUser.sh
-svn switch ^/branches/branch5
-svn merge ^/branches/branch29 .
+# Переключаем на red (toRedUser.sh)
+# Переходим на branch5
+svn switch $RepoPath/branches/branch5
+# Слияние branch29 в branch5 без commit
+svn merge $RepoPath/branches/branch29 --accept working
+svn rm *
 cp ../commit96/* .
-svn add --force .
-svn commit -m "c96"
+svn add --force *
+svn commit -m "c96" --username "red"
 
 ###############################################################################
-# (50) sh ../toBlueUser.sh
-#      git checkout branch44
-#      git merge branch5 --no-commit
-#      cp ../commit97/* => c97
-###############################################################################
-sh ../toBlueUser.sh
-svn switch ^/branches/branch44
-svn merge ^/branches/branch5 .
+# Переключаем на blue (toBlueUser.sh)
+# Переходим на branch44
+svn switch $RepoPath/branches/branch44
+# Слияние branch5 в branch44 без commit
+svn merge $RepoPath/branches/branch5 --accept working
+svn rm *
 cp ../commit97/* .
-svn add --force .
-svn commit -m "c97"
-
-echo "========================================"
-echo " Скрипт завершён. Все операции перенесены в SVN."
-echo " Итоговый репозиторий: $(pwd)/../svnRepo"
-echo " Рабочая копия:        $(pwd)"
-echo "========================================"
+svn add --force *
+svn commit -m "c97" --username "blue"

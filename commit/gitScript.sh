@@ -135,7 +135,7 @@ cp ../commit28/* . && git add .
 git commit -m "c28"
 
 git checkout -b branch29
-git merge branch6 --no-commit
+git merge branch6 --commit
 cp ../commit29/* . && git add .
 git commit -m "c29"
 

@@ -436,6 +436,7 @@ cp ../commit90/* . && git add .
 git commit -m "c90"
 
 git checkout -b branch91
+git checkout -b branch91
 git merge branch74 --no-commit
 cp ../commit91/* . && git add .
 git commit -m "c91"

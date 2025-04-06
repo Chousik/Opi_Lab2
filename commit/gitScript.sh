@@ -314,9 +314,9 @@ git commit -m "c67"
 git merge branch13 --commit
 
 git checkout branch20
+git merge branch57 --no-commit
 cp ../commit68/* . && git add .
 git commit -m "c68"
-git merge branch57 --commit
 
 git checkout main
 git merge branch20

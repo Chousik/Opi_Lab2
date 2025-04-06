@@ -135,8 +135,7 @@ cp ../commit28/* . && git add .
 git commit -m "c28"
 
 git checkout -b branch29
-git checkout branch6
-git merge branch29 --no-commit
+git merge branch6 --no-commit
 cp ../commit29/* . && git add .
 git commit -m "c29"
 
@@ -361,7 +360,7 @@ cp ../commit76/* . && git add .
 git commit -m "c76"
 
 sh ../toRedUser.sh
-git checkout branch22
+git checkout branch14
 cp ../commit77/* . && git add .
 git commit -m "c77"
 

@@ -17,11 +17,13 @@ git checkout -b branch2
 cp ../commit2/* . && git add .
 git commit -m "c2"
 
+#no changes
 sh ../toRedUser.sh
 git checkout -b branch3
 cp ../commit3/* . && git add .
 git commit -m "c3"
 
+#no changes
 git checkout -b branch4
 cp ../commit4/* . && git add .
 git commit -m "c4"
@@ -303,7 +305,7 @@ cp ../commit65/* . && git add .
 git commit -m "c65"
 git merge branch64 --commit
 
-git checkout branch6
+git checkout branch13
 cp ../commit66/* . && git add .
 git commit -m "c66"
 

@@ -1,14 +1,10 @@
 #!/bin/bash
 
-###############################################################################
-# 1. Подготовка: удаляем старые директории/репо, создаём новый репозиторий SVN
-###############################################################################
 rm -rf buffer
 rm -rf svnRepo
 
 svnadmin create svnRepo
 
-# Создаём стандартные папки
 svn mkdir file://$(pwd)/svnRepo/trunk    -m "Create trunk"
 svn mkdir file://$(pwd)/svnRepo/branches -m "Create branches"
 svn mkdir file://$(pwd)/svnRepo/tags     -m "Create tags"

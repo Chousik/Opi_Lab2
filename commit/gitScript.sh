@@ -319,12 +319,12 @@ git commit -m "c68"
 git merge branch57 --commit
 
 git checkout main
+git merge branch20
 cp ../commit69/* . && git add .
 git commit -m "c69"
-git merge branch20 --commit
 
 sh ../toBlueUser.sh
-git checkout branch6
+git checkout branch29
 cp ../commit70/* . && git add .
 git commit -m "c70"
 

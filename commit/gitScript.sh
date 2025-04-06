@@ -311,9 +311,9 @@ git commit -m "c66"
 
 sh ../toRedUser.sh
 git checkout branch57
+git merge branch13 --no-commit
 cp ../commit67/* . && git add .
 git commit -m "c67"
-git merge branch13 --commit
 
 git checkout branch20
 git merge branch57 --no-commit

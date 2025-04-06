@@ -319,7 +319,7 @@ cp ../commit68/* . && git add .
 git commit -m "c68"
 
 git checkout main
-git merge branch20
+git merge branch20 --no-commit
 cp ../commit69/* . && git add .
 git commit -m "c69"
 

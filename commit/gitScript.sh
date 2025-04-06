@@ -133,10 +133,10 @@ cp ../commit28/* . && git add .
 git commit -m "c28"
 
 git checkout -b branch29
+git checkout branch6
+git merge branch29 --no-commit
 cp ../commit29/* . && git add .
 git commit -m "c29"
-git checkout branch6
-git merge branch29 --commit
 
 sh ../toRedUser.sh
 git checkout branch7
@@ -340,7 +340,7 @@ git commit -m "c72"
 git checkout branch3
 cp ../commit73/* . && git add .
 git commit -m "c73"
-git merge branch4 --commit
+git merge branch4 --no-commit
 
 sh ../toBlueUser.sh
 git checkout -b branch74

@@ -146,9 +146,9 @@ git commit -m "c30"
 
 sh ../toBlueUser.sh
 git checkout -b branch31
+git merge branch7 --no-commit
 cp ../commit31/* . && git add .
 git commit -m "c31"
-git merge branch7 --commit
 
 sh ../toRedUser.sh
 git checkout -b branch32
@@ -220,7 +220,7 @@ git checkout branch16
 cp ../commit47/* . && git add .
 git commit -m "c47"
 
-git checkout branch16
+git checkout branch29
 cp ../commit48/* . && git add .
 git commit -m "c48"
 
@@ -409,20 +409,18 @@ sh ./toRedUser.sh
 cp ../commit86/* . && git add .
 git commit -m "c86"
 
-sh ../toBlueUser.sh
+sh ../toRedUser.sh
 git checkout branch65
+git merge branch14 --no-commit
 cp ../commit87/* . && git add .
 git commit -m "c87"
 
-sh ../toRedUser.sh
-git merge branch14 --no-commit
 
 git checkout branch32
+git merge branch65 --no-commit
 cp ../commit88/* . && git add .
 git commit -m "c88"
 
-sh ../toBlueUser.sh
-git merge branch65 --no-commit
 
 git checkout branch10
 sh ../toRedUser.sh

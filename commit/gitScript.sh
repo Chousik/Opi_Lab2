@@ -81,7 +81,11 @@ git commit -m "c15"
 git checkout -b branch16
 cp ../commit16/* . && git add .
 git commit -m "c16"
-git merge branch2 --commit
+if git merge branch2 --commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 
 sh ../toRedUser.sh
 git checkout branch5
@@ -135,7 +139,11 @@ cp ../commit28/* . && git add .
 git commit -m "c28"
 
 git checkout -b branch29
-git merge branch6 --commit
+if git merge branch6 --commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit29/* . && git add .
 git commit -m "c29"
 
@@ -146,7 +154,11 @@ git commit -m "c30"
 
 sh ../toBlueUser.sh
 git checkout -b branch31
-git merge branch7 --no-commit
+if git merge branch7 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit31/* . && git add .
 git commit -m "c31"
 
@@ -235,13 +247,21 @@ git commit -m "c50"
 
 sh ../toBlueUser.sh
 git checkout branch49
-git merge branch26 --no-commit
+if git merge branch26 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit51/* . && git add .
 git commit -m "c51"
 
 sh ../toRedUser.sh
 git checkout branch32
-git merge branch49 --no-commit
+if git merge branch49 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit52/* . && git add .
 git commit -m "c52"
 
@@ -271,7 +291,11 @@ cp ../commit58/* . && git add .
 git commit -m "c58"
 
 git checkout branch14
-git merge branch11 --no-commit
+if git merge branch11 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit59/* . && git add .
 git commit -m "c59"
 
@@ -296,13 +320,21 @@ git commit -m "c63"
 git checkout -b branch64
 cp ../commit64/* . && git add .
 git commit -m "c64"
-git merge branch45 --commit
+if git merge branch45 --commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 
 sh ../toBlueUser.sh
 git checkout -b branch65
 cp ../commit65/* . && git add .
 git commit -m "c65"
-git merge branch64 --commit
+if git merge branch64 --commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 
 git checkout branch13
 cp ../commit66/* . && git add .
@@ -310,17 +342,29 @@ git commit -m "c66"
 
 sh ../toRedUser.sh
 git checkout branch57
-git merge branch13 --no-commit
-cp ../commit67/* . && git add .
+if git merge branch13 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
+cp ../commit69/* . && git add .
 git commit -m "c67"
 
 git checkout branch20
-git merge branch57 --no-commit
-cp ../commit68/* . && git add .
+if git merge branch57 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
+cp ../commit69/* . && git add .
 git commit -m "c68"
 
 git checkout main
-git merge branch20 --no-commit
+if git merge branch20 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit69/* . && git add .
 git commit -m "c69"
 
@@ -341,7 +385,11 @@ git commit -m "c72"
 git checkout branch3
 cp ../commit73/* . && git add .
 git commit -m "c73"
-git merge branch4 --no-commit
+if git merge branch4 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 
 sh ../toBlueUser.sh
 git checkout -b branch74
@@ -355,7 +403,11 @@ git commit -m "c75"
 
 sh ../toBlueUser.sh
 git checkout -b branch76
-git merge branch19 --no-commit
+if git merge branch19 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit76/* . && git add .
 git commit -m "c76"
 
@@ -373,7 +425,11 @@ cp ../commit79/* . && git add .
 git commit -m "c79"
 
 git checkout main
-git merge branch22 --no-commit
+if git merge branch22 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit80/* . && git add .
 git commit -m "c80"
 
@@ -384,12 +440,20 @@ git commit -m "c81"
 
 sh ../toRedUser
 git checkout branch1
-git merge branch22 --no-commit
+if git merge branch22 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit82/* . && git add .
 git commit -m "c82"
 
 git checkout branch32
-git merge branch1 --no-commit
+if git merge branch1 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit83/* . && git add .
 git commit -m "c83"
 
@@ -399,44 +463,72 @@ git commit -m "c84"
 
 sh ../toBlueUser.sh
 git checkout branch31
-git merge branch3 --no-commit
+if git merge branch3 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit85/* . && git add .
 git commit -m "c85"
 
 git checkout branch14
-git merge branch31 --no-commit
+if git merge branch31 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 sh ./toRedUser.sh
 cp ../commit86/* . && git add .
 git commit -m "c86"
 
 sh ../toRedUser.sh
 git checkout branch65
-git merge branch14 --no-commit
+if git merge branch14 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit87/* . && git add .
 git commit -m "c87"
 
 
 git checkout branch32
-git merge branch65 --no-commit
+if git merge branch65 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit88/* . && git add .
 git commit -m "c88"
 
 
 git checkout branch10
 sh ../toRedUser.sh
-git merge branch32 --no-commit
+if git merge branch32 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 sh ../toBlueUser.sh
 cp ../commit89/* . && git add .
 git commit -m "c89"
 
 sh ../toBlueUser.sh
 git checkout branch74
-git merge branch10 --no-commit
+if git merge branch10 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit90/* . && git add .
 git commit -m "c90"
 
 git checkout -b branch91
-git merge branch74 --no-commit
+if git merge branch74 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit91/* . && git add .
 git commit -m "c91"
 
@@ -445,28 +537,48 @@ cp ../commit92/* . && git add .
 git commit -m "c92"
 
 git checkout branch16
-git merge branch12 --no-commit
+if git merge branch12 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit93/* . && git add .
 git commit -m "c93"
 
 git checkout branch91
-git merge branch16 --no-commit
+if git merge branch16 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit94/* . && git add .
 git commit -m "c94"
 
 git checkout branch29
-git merge branch91 --no-commit
+if git merge branch91 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit95/* . && git add .
 git commit -m "c95"
 
 sh ../toRedUser.sh
 git checkout branch5
-git merge branch29 --no-commit
+if git merge branch29 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit96/* . && git add .
 git commit -m "c96"
 
 sh ../toBlueUser.sh
 git checkout branch44
-git merge branch5 --no-commit
+if git merge branch5 --no-commit;then
+    echo "Мария развитая"
+else
+    echo "Мария отсталая 🤬"
+fi
 cp ../commit97/* . && git add .
 git commit -m "c97"
